@@ -2,7 +2,8 @@ import cv2
 import cv2.cv as cv
 filename = "image.jpg"
 oriimage = cv2.imread(filename)
-newx,newy = oriimage.shape[1]/4,oriimage.shape[0]/4 #new size (w,h)
+k=4
+newx,newy = oriimage.shape[1]/k,oriimage.shape[0]/k #new size (w,h)
 newimage = cv2.resize(oriimage,(newx,newy))
 cv2.imwrite("new.jpg",newimage)
 # cv.SaveImage("new.jpg", newimage)
