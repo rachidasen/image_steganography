@@ -1,0 +1,5 @@
+Python3 has a about 70 builtin BIF which makes our work easier 
+
+Writing function in python is very simple and easy
+
+	def FUNCTION-NAME (ARGUMENTS):

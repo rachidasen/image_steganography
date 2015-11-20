@@ -20,6 +20,7 @@ import scipy
 import Image
 import math
 filename = "image.bmp"
+zero=0
 info="i am kokab"
 steg=tobits(info)
 l=len(steg)
@@ -40,6 +41,12 @@ s = [[0]*k*im.width for i in range(k*im.height)]
 # displaying the matrix form of image
 # gray = cv2.cvtCOLOR(im, cv2.COLOR_BGR2GRAY)
 # print gray
+
+# /********************************************************************************************************88
+
+#                             MAKING COVER IMAGE
+
+# /***********************************************************************************************************/
 for i in range(im.height):
     for j in range(im.width):
     	# print im[i,j],
@@ -47,6 +54,7 @@ for i in range(im.height):
     	s[2*i][2*j]=c[2*i][2*j]=im[i,j]
     	# print c[i][j],
     # print "\n",i,j,	
+print i,j
 # Making  a cover image 
 # Algo is to make a array of the original size say 
 # 	h=k*im.height;
@@ -58,9 +66,15 @@ for i in range(im.height):
 b1=b2=b3=0
 
 # scipy.misc.imsave('outfile.jpg', image_array)
+
+# /*********************************************************************************************************/
+
+#                         MAKING COVER IMAGE AS WELL AS STEGO IMAGE
+
+# /********************************************************************************************************/
 counter=0
-for i in range(0,k*im.height-2,1):
-    for j in range(0,k*im.width-2,1):
+for i in range(0,(k*im.height)-2,2):
+    for j in range(0,(k*im.width)-2,2):
     	# print c[i][j],
     	Imin=c[i][j]
     	Imax=c[i][j]
@@ -107,7 +121,25 @@ print n1,n2,n3
 print l
 print steg[0:3]
 
+
+
+# /********************************************************************************************************/
+
+#                         CHECKING NO OF ZERO IN STEGO IMAGE
+
+# /*********************************************************************************************************/
 # print "\n",o
+
+
+for i in range(k*im.height):
+    for j in range(k*im.width):
+        if(c[i][j]==0):
+            zero=zero+1
+            # print i,j
+        print c[i][j] ,
+    print "\n"
+
+print zero
 c_array=np.asarray(c)
 ime = Image.fromarray(c_array)
 if ime.mode != 'RGB':
