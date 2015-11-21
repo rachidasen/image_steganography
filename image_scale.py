@@ -21,6 +21,7 @@ import Image
 import math
 filename = "image.bmp"
 zero=0
+count=0
 info="i am kokab"
 steg=tobits(info)
 l=len(steg)
@@ -89,16 +90,43 @@ for i in range(0,(k*im.height)-2,2):
     		
 
     	AD=(3*Imin+Imax)/4
-    	c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
-    	c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
-    	c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+    	s[i][j+1]=c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
+    	c[i+1][j]=s[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
+    	c[i+1][j+1]=s[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
     	d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
     	d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
     	d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
     	n1=int(math.floor(math.log(d1,2)))
     	n2=int(math.floor(math.log(d2,2)))
     	n3=int(math.floor(math.log(d3,2)))
-    	# for ind in range(counter,counter+n1):
+     #    /****************************************************************************************************/
+
+     #                        GENERATING STEGO IMAGE
+
+     #    /**********************************************************************************************************/
+        start=count
+        count=count+n1
+        if(count<l):
+           # embed
+           for i in range(count-1,start-1,-1):
+               b1=pow(2,steg[i])+b1
+           s[i][j+1]=s[i][j+1]-b1
+           start=count
+           count=count+n2
+           if(count<l):
+               for i in range(count-1,start-1,-1):
+                   b2=pow(2,steg[i])+b2
+           s[i+1][j]=s[i+1][j]-b2
+           start=count
+           count=count+n3
+           if(count<l):
+               for i in range(count-1,start-1,-1):
+                   b3=pow(2,steg[i])+b3
+           s[i+1][j+1]=s[i+1][j+1]-b3
+
+
+        
+    	# # for ind in range(counter,counter+n1):
     	# 	b1=b1+steg[ind]*pow(2,n1-ind-1)
     	# counter+=n1
     	# for ind in range(counter,counter+n2):
@@ -117,9 +145,11 @@ for i in range(0,(k*im.height)-2,2):
     # print "\n",i,
     # i+=2
 print n1,n2,n3
-# print steg
-print l
-print steg[0:3]
+
+
+
+
+
 
 
 
@@ -140,12 +170,50 @@ for i in range(k*im.height):
     print "\n"
 
 print zero
+
+
+print "\nsteg"
+# print s
+# print steg
+print n1,n2,n3
+n0=0
+print steg[n0:n1]
+
+# # //print steg
+# # //b1 = ''.join(steg[n0:n1])
+# # print b1
+# # print int(b1,2)
+# count=n1
+# start=n0
+# b1=0
+# # while(count>start):
+# #     b1=pow(2,str[count])+b1
+# #     count=count-1
+# for i in range(n1-1,n0-1,-1):
+#     print i
+#     b1=pow(2,steg[i])+b1
+# # print i
+# # b1=pow(2,steg[i])+b1
+# print b1
+# /********************************************************************************************************
+
+#                                     SAVING THE IMAGE
+
+
+# /********************************************************************************************************
 c_array=np.asarray(c)
 ime = Image.fromarray(c_array)
 if ime.mode != 'RGB':
     ime = ime.convert('RGB')
 ime.save("your_file.bmp")
 
+
+c_array=np.asarray(s)
+ime = Image.fromarray(c_array)
+if ime.mode != 'RGB':
+    ime = ime.convert('RGB')
+ime.save("your_stego.bmp")
 cv2.imshow("original image",oriimage)
 cv2.imshow("resize image",newimage)
+# cv2.imshow("hello","your_stego.bmp")
 cv2.waitKey(400)
