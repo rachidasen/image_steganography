@@ -53,7 +53,7 @@ for i in range(im.height):
     	# print im[i,j],
     	# if(i%2==0):
     	s[2*i][2*j]=c[2*i][2*j]=im[i,j]
-    	# print c[i][j],
+    	# print im[i,j],
     # print "\n",i,j,	
 print i,j
 # Making  a cover image 
@@ -91,8 +91,8 @@ for i in range(0,(k*im.height)-2,2):
 
     	AD=(3*Imin+Imax)/4
     	s[i][j+1]=c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
-    	c[i+1][j]=s[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
-    	c[i+1][j+1]=s[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+    	s[i+1][j]=c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
+    	s[i+1][j+1]=c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
     	d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
     	d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
     	d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
@@ -108,20 +108,26 @@ for i in range(0,(k*im.height)-2,2):
         count=count+n1
         if(count<l):
            # embed
-           for i in range(count-1,start-1,-1):
-               b1=pow(2,steg[i])+b1
+           for kokab in range(count-1,start-1,-1):
+               bina=0
+               b1=pow(2,bina)*steg[kokab]+b1
+               bina=bina+1
            s[i][j+1]=s[i][j+1]-b1
            start=count
            count=count+n2
-           if(count<l):
-               for i in range(count-1,start-1,-1):
-                   b2=pow(2,steg[i])+b2
+        if(count<l):
+           for kokab in range(count-1,start-1,-1):
+               bina=0
+               b2=pow(2,bina)*steg[kokab]+b2
+               bina=bina+1
            s[i+1][j]=s[i+1][j]-b2
            start=count
            count=count+n3
-           if(count<l):
-               for i in range(count-1,start-1,-1):
-                   b3=pow(2,steg[i])+b3
+        if(count<l):
+           for kokab in range(count-1,start-1,-1):
+                bina=0
+                b3=pow(2,bina)*steg[kokab]+b3
+                bina=bina+1
            s[i+1][j+1]=s[i+1][j+1]-b3
 
 
@@ -166,8 +172,8 @@ for i in range(k*im.height):
         if(c[i][j]==0):
             zero=zero+1
             # print i,j
-        print c[i][j] ,
-    print "\n"
+        # print c[i][j] ,
+    # print "\n"
 
 print zero
 
@@ -208,12 +214,15 @@ if ime.mode != 'RGB':
 ime.save("your_file.bmp")
 
 
-c_array=np.asarray(s)
-ime = Image.fromarray(c_array)
-if ime.mode != 'RGB':
-    ime = ime.convert('RGB')
-ime.save("your_stego.bmp")
+s_array=np.asarray(s)
+imgs = Image.fromarray(s_array)
+if imgs.mode != 'RGB':
+    imgs = ime.convert('RGB')
+imgs.save("your_stego.bmp")
+
+print 'succ'
 cv2.imshow("original image",oriimage)
 cv2.imshow("resize image",newimage)
 # cv2.imshow("hello","your_stego.bmp")
-cv2.waitKey(400)
+print 'error'
+cv2.waitKey(4000)
