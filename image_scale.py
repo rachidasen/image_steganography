@@ -29,23 +29,23 @@ info="i am kokab"
 #                         READING A SECRET INFORMATION
 
 # /*******************************************************************************************************************
-infoimage=cv.LoadImage("new.jpg",0)
-info_str=[]
-info_array=np.asarray(infoimage[:,:])
+# infoimage=cv.LoadImage("new.jpg",0)
+# info_str=[]
+# info_array=np.asarray(infoimage[:,:])
 
-for i in range(infoimage.height):
-    for j in range(infoimage.width):
-        info_str.extend(bin(info_array[i,j])[2:]),
-    # print "\n"
-# print info_array
-# Converting info_str into integer list
-for i in range(len(info_str)):
-    info_str[i]=int(info_str[i])
-    # print info_str[i]
-ig_str = cv2.imencode('.jpg', info_array)[1].tostring()
-# T2 = [map(int, x) for x in ig_str]
-print "info imafge"
-print type(ig_str)
+# for i in range(infoimage.height):
+#     for j in range(infoimage.width):
+#         info_str.extend(bin(info_array[i,j])[2:]),
+#     # print "\n"
+# # print info_array
+# # Converting info_str into integer list
+# for i in range(len(info_str)):
+#     info_str[i]=int(info_str[i])
+#     # print info_str[i]
+# ig_str = cv2.imencode('.jpg', info_array)[1].tostring()
+# # T2 = [map(int, x) for x in ig_str]
+# print "info imafge"
+# print type(ig_str)
 # print info_str
 # steg=strinfo = ''.join(info_str)
 # image reading steg=info_str
@@ -62,9 +62,9 @@ cv2.imwrite("new.bmp",newimage)
 # cv.SaveImage("new.jpg", newimage)
 im = cv.LoadImage("new.bmp",0)
 k*im.width
-c = [[0]*k*im.width for i in range(k*im.height-1)]
-s = [[0]*k*im.width for i in range(k*im.height-1)]
-
+c = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
+s = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
+print k*im.width-1,k*im.height-1
 # c[][]=[k*im.height][k*im.width]
 
 # displaying the matrix form of image
@@ -76,7 +76,6 @@ s = [[0]*k*im.width for i in range(k*im.height-1)]
 #                             MAKING COVER IMAGE
 
 # /***********************************************************************************************************/
-print 
 for i in range(im.height):
     for j in range(im.width):
     	# print im[i,j],
@@ -104,8 +103,8 @@ b1=b2=b3=0
 # /********************************************************************************************************/
 counter=0
 count21=0
-for i in range(0,(k*im.height)-2,2):
-    for j in range(0,(k*im.width)-2,2):
+for i in range(0,(k*im.height-2),2):
+    for j in range(0,(k*im.width-2),2):
     	# print c[i][j],
     	Imin=c[i][j]
     	Imax=c[i][j]
@@ -134,20 +133,20 @@ for i in range(0,(k*im.height)-2,2):
     #/***********************************************************************************************/
         if(d1!=0):
     	   n1=int(math.floor(math.log(d1,2)))
-           if(count<l):
-            count21=count21+1
-            start=count
-            count= count+n1 if(l>count+n1) else l
+           if(count<l and n1!=0):
+                count21=count21+1
+                start=count
+                count= count+n1 if(l>count+n1) else l
               # embed
-            for kokab in range(count-1,start-1,-1):
-                bina=0
-                b1=pow(2,bina)*steg[kokab]+b1
-                bina=bina+1
-            s[i][j+1]=s[i][j+1]-b1
+                for kokab in range(count-1,start-1,-1):
+                    bina=0
+                    b1=pow(2,bina)*steg[kokab]+b1
+                    bina=bina+1
+                s[i][j+1]=s[i][j+1]-b1
               
         if(d2!=0):
             n2=int(math.floor(math.log(d2,2)))
-            if(count<l):
+            if(count<l and n2!=0):
                 count21=count21+1
                 start=count
                 count= count+n2 if(l>count+n2) else l
@@ -159,7 +158,7 @@ for i in range(0,(k*im.height)-2,2):
                
         if(d3!=0):
             n3=int(math.floor(math.log(d3,2)))
-            if(count<l):
+            if(count<l and n3!=0):
                 start=count
                 count=count+n3 if(l>count+n3) else l
                 count21=count21+1
@@ -172,7 +171,7 @@ for i in range(0,(k*im.height)-2,2):
 # print n1,n2,n3
 
 
-
+s_array=np.asarray(s)
 
 
 
@@ -184,19 +183,22 @@ print "No of pixels getting changed actually",count21
 
 # /*********************************************************************************************************/
 # print "\n",o
+zero=0
 zero2=0
 different=0
 for i in range(k*im.height-1):
     for j in range(k*im.width-1):
         if(c[i][j]==0):
             zero=zero+1
-        if(s[i][j]==0):
+        if(s_array[i,j]==0):
             zero2=zero2+1
-        if(c[i][j]!=s[i][j]):
+        if(c[i][j]!=s_array[i,j]):
+            # print i,j,c[i][j],s[i][j]
             different=different+1
         # print c[i][j],
-        # print c[i][j] ,
+        # print s_array[i,j],
     # print "\n"
+# print i,j
 # /*******************************************************************************************************************
     
 #                                                 TESTING OPERATION
@@ -220,17 +222,38 @@ else:
 
 # /********************************************************************************************************
 c_array=np.asarray(c)
-ime = Image.fromarray(c_array)
-if ime.mode != 'RGB':
-    ime = ime.convert('RGB')
-ime.save("your_file.bmp")
+import scipy.misc
+scipy.misc.imsave("cover_image.bmp",c_array)
+scipy.misc.imsave("stego_image.bmp",s_array)
+# ime = Image.fromarray(c_array)
+# if ime.mode != 'RGB':
+#     ime = ime.convert('RGB')
+# ime.save("your_file.bmp")
 
 
-s_array=np.asarray(s)
-imgs = Image.fromarray(s_array)
-if imgs.mode != 'RGB':
-    imgs = ime.convert('RGB')
-imgs.save("your_stego.bmp")
+# s=cv.LoadImage("your_stego.bmp",0)
+# c=cv.LoadImage("your_file.bmp",0)
+# count=0
+# for i in range(c.height):
+#   for j in range(c.width):
+#     if(s_array[i,j]!=c[i,j]):
+#       count=count+1
+# print "count", count
+
+
+# imgs = Image.fromarray(s_array)
+# if imgs.mode != 'RGB':
+#     imgs = ime.convert('RGB')
+# imgs.save("your_stego.bmp")
+
+# s=cv.LoadImage("your_stego.bmp",0)
+# c=cv.LoadImage("your_file.bmp",0)
+# count=0
+# for i in range(s.height):
+#   for j in range(s.width):
+#     if(s[i,j]!=c[i,j]):
+#       count=count+1
+# print count
 
 print 'succ'
 # cv2.imshow("original image",oriimage)
