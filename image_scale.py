@@ -23,7 +23,35 @@ filename = "image.bmp"
 zero=0
 count=0
 info="i am kokab"
-steg=tobits(info)
+# /******************************************************************************************************************
+
+
+#                         READING A SECRET INFORMATION
+
+# /*******************************************************************************************************************
+infoimage=cv.LoadImage("new.jpg",0)
+info_str=[]
+info_array=np.asarray(infoimage[:,:])
+
+for i in range(infoimage.height):
+    for j in range(infoimage.width):
+        info_str.extend(bin(info_array[i,j])[2:]),
+    print "\n"
+# print info_array
+# Converting info_str into integer list
+for i in range(len(info_str)):
+    info_str[i]=int(info_str[i])
+    # print info_str[i]
+ig_str = cv2.imencode('.jpg', info_array)[1].tostring()
+# T2 = [map(int, x) for x in ig_str]
+print "info imafge"
+print type(ig_str)
+# print info_str
+# steg=strinfo = ''.join(info_str)
+steg=info_str
+# print info_str
+# print strinfo
+# steg=tobits(info)
 l=len(steg)
 o=frombits(steg)
 oriimage = cv2.imread(filename,0)
@@ -48,6 +76,7 @@ s = [[0]*k*im.width for i in range(k*im.height)]
 #                             MAKING COVER IMAGE
 
 # /***********************************************************************************************************/
+print 
 for i in range(im.height):
     for j in range(im.width):
     	# print im[i,j],
@@ -166,24 +195,33 @@ print n1,n2,n3
 # /*********************************************************************************************************/
 # print "\n",o
 
-
+different=0
 for i in range(k*im.height):
     for j in range(k*im.width):
         if(c[i][j]==0):
             zero=zero+1
+        if(c[i][j]!=s[i][j]):
+            different=different+1
             # print i,j
         # print c[i][j] ,
     # print "\n"
 
 print zero
 
-
+print different
 print "\nsteg"
 # print s
 # print steg
 print n1,n2,n3
 n0=0
 print steg[n0:n1]
+
+print k*im.height,k*im.width
+if(count>l):
+    print "stego image successfully generated"
+else:
+    print "Unsuccessful stego"
+
 
 # # //print steg
 # # //b1 = ''.join(steg[n0:n1])
@@ -201,6 +239,41 @@ print steg[n0:n1]
 # # print i
 # # b1=pow(2,steg[i])+b1
 # print b1
+
+# /***************************************************************************************************************/
+
+#                 EXTRACTING information from stego image
+
+# /***************************************************************************************************************/
+for i in range(0,(k*im.height)-2,2):
+    for j in range(0,(k*im.width)-2,2):
+        # print c[i][j],
+        Imin=c[i][j]
+        Imax=c[i][j]
+        L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
+
+        for item in L:
+            if(Imin>item):
+                Imin=item
+            if(Imax<item):
+                Imax=item
+        
+            
+
+        AD=(3*Imin+Imax)/4
+        s[i][j+1]=c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
+        s[i+1][j]=c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
+        s[i+1][j+1]=c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+        d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
+        d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
+        d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
+        n1=int(math.floor(math.log(d1,2)))
+        n2=int(math.floor(math.log(d2,2)))
+        n3=int(math.floor(math.log(d3,2)))
+   
+
+
+
 # /********************************************************************************************************
 
 #                                     SAVING THE IMAGE
@@ -225,4 +298,4 @@ cv2.imshow("original image",oriimage)
 cv2.imshow("resize image",newimage)
 # cv2.imshow("hello","your_stego.bmp")
 print 'error'
-cv2.waitKey(4000)
+cv2.waitKey(40000)
