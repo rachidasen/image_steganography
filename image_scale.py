@@ -36,7 +36,7 @@ info_array=np.asarray(infoimage[:,:])
 for i in range(infoimage.height):
     for j in range(infoimage.width):
         info_str.extend(bin(info_array[i,j])[2:]),
-    print "\n"
+    # print "\n"
 # print info_array
 # Converting info_str into integer list
 for i in range(len(info_str)):
@@ -48,12 +48,12 @@ print "info imafge"
 print type(ig_str)
 # print info_str
 # steg=strinfo = ''.join(info_str)
-steg=info_str
+# image reading steg=info_str
 # print info_str
 # print strinfo
-# steg=tobits(info)
+steg=tobits(info)
 l=len(steg)
-o=frombits(steg)
+
 oriimage = cv2.imread(filename,0)
 k=2
 newx,newy = oriimage.shape[1]/k,oriimage.shape[0]/k #new size (w,h)
@@ -62,8 +62,8 @@ cv2.imwrite("new.bmp",newimage)
 # cv.SaveImage("new.jpg", newimage)
 im = cv.LoadImage("new.bmp",0)
 k*im.width
-c = [[0]*k*im.width for i in range(k*im.height)]
-s = [[0]*k*im.width for i in range(k*im.height)]
+c = [[0]*k*im.width for i in range(k*im.height-1)]
+s = [[0]*k*im.width for i in range(k*im.height-1)]
 
 # c[][]=[k*im.height][k*im.width]
 
@@ -103,6 +103,7 @@ b1=b2=b3=0
 
 # /********************************************************************************************************/
 counter=0
+count21=0
 for i in range(0,(k*im.height)-2,2):
     for j in range(0,(k*im.width)-2,2):
     	# print c[i][j],
@@ -116,77 +117,66 @@ for i in range(0,(k*im.height)-2,2):
     		if(Imax<item):
     			Imax=item
     	
-    		
-
     	AD=(3*Imin+Imax)/4
-    	s[i][j+1]=c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
-    	s[i+1][j]=c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
+
+    	s[i][j+1]=c[i][j+1]=(AD + (c[i][j]+c[i][j+2])/2)/2
+    	s[i+1][j]=c[i+1][j]=(AD + (c[i][j]+c[i+2][j])/2)/2
     	s[i+1][j+1]=c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
     	d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
     	d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
     	d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
-    	n1=int(math.floor(math.log(d1,2)))
-    	n2=int(math.floor(math.log(d2,2)))
-    	n3=int(math.floor(math.log(d3,2)))
-     #    /****************************************************************************************************/
+        # print Imin,Imax,c[i][j+1],c[i+1][j],c[i+1][j+1],d1,d2,d3
+
+    #/****************************************************************************************************/
 
      #                        GENERATING STEGO IMAGE
 
-     #    /**********************************************************************************************************/
-        start=count
-        count=count+n1
-        if(count<l):
-           # embed
-           for kokab in range(count-1,start-1,-1):
-               bina=0
-               b1=pow(2,bina)*steg[kokab]+b1
-               bina=bina+1
-           s[i][j+1]=s[i][j+1]-b1
-           start=count
-           count=count+n2
-        if(count<l):
-           for kokab in range(count-1,start-1,-1):
-               bina=0
-               b2=pow(2,bina)*steg[kokab]+b2
-               bina=bina+1
-           s[i+1][j]=s[i+1][j]-b2
-           start=count
-           count=count+n3
-        if(count<l):
-           for kokab in range(count-1,start-1,-1):
+    #/***********************************************************************************************/
+        if(d1!=0):
+    	   n1=int(math.floor(math.log(d1,2)))
+           if(count<l):
+            count21=count21+1
+            start=count
+            count= count+n1 if(l>count+n1) else l
+              # embed
+            for kokab in range(count-1,start-1,-1):
                 bina=0
-                b3=pow(2,bina)*steg[kokab]+b3
+                b1=pow(2,bina)*steg[kokab]+b1
                 bina=bina+1
-           s[i+1][j+1]=s[i+1][j+1]-b3
+            s[i][j+1]=s[i][j+1]-b1
+              
+        if(d2!=0):
+            n2=int(math.floor(math.log(d2,2)))
+            if(count<l):
+                count21=count21+1
+                start=count
+                count= count+n2 if(l>count+n2) else l
+                for kokab in range(count-1,start-1,-1):
+                    bina=0
+                    b2=pow(2,bina)*steg[kokab]+b2
+                    bina=bina+1
+                s[i+1][j]=s[i+1][j]-b2
+               
+        if(d3!=0):
+            n3=int(math.floor(math.log(d3,2)))
+            if(count<l):
+                start=count
+                count=count+n3 if(l>count+n3) else l
+                count21=count21+1
+
+                for kokab in range(count-1,start-1,-1):
+                    bina=0
+                    b3=pow(2,bina)*steg[kokab]+b3
+                    bina=bina+1
+                s[i+1][j+1]=s[i+1][j+1]-b3
+# print n1,n2,n3
 
 
-        
-    	# # for ind in range(counter,counter+n1):
-    	# 	b1=b1+steg[ind]*pow(2,n1-ind-1)
-    	# counter+=n1
-    	# for ind in range(counter,counter+n2):
-    	# 	b2=b2+steg[ind]*pow(2,n2-ind-1)
-    	# counter+=n2
-    	# for ind in range(counter,counter+n3):
-    	# 	b3=b3+steg[ind]*pow(2,n3-ind-1)
-    	# counter+=n3
-     # 	counter+=(counter+n1+n2+n3)
-      # s[i][j]=
-      # s[i][j+1]=
-      # s[i+1][j]=
-      # s[i+1][j+]=
-    	# j+=2
-
-    # print "\n",i,
-    # i+=2
-print n1,n2,n3
 
 
 
 
-
-
-
+print "No of pixels getting changed actually",count21
 
 # /********************************************************************************************************/
 
@@ -194,84 +184,33 @@ print n1,n2,n3
 
 # /*********************************************************************************************************/
 # print "\n",o
-
+zero2=0
 different=0
-for i in range(k*im.height):
-    for j in range(k*im.width):
+for i in range(k*im.height-1):
+    for j in range(k*im.width-1):
         if(c[i][j]==0):
             zero=zero+1
+        if(s[i][j]==0):
+            zero2=zero2+1
         if(c[i][j]!=s[i][j]):
             different=different+1
-            # print i,j
+        # print c[i][j],
         # print c[i][j] ,
     # print "\n"
+# /*******************************************************************************************************************
+    
+#                                                 TESTING OPERATION
 
-print zero
-
-print different
-print "\nsteg"
-# print s
-# print steg
-print n1,n2,n3
-n0=0
-print steg[n0:n1]
-
-print k*im.height,k*im.width
-if(count>l):
+# /*******************************************************************************************************************
+print "No of zeo in cover image",zero
+print "len of string",l
+print "No of zero in stego image",zero2
+print "value of count",count
+print "different no of pixels in cover and stego", different
+if(count>=l):
     print "stego image successfully generated"
 else:
     print "Unsuccessful stego"
-
-
-# # //print steg
-# # //b1 = ''.join(steg[n0:n1])
-# # print b1
-# # print int(b1,2)
-# count=n1
-# start=n0
-# b1=0
-# # while(count>start):
-# #     b1=pow(2,str[count])+b1
-# #     count=count-1
-# for i in range(n1-1,n0-1,-1):
-#     print i
-#     b1=pow(2,steg[i])+b1
-# # print i
-# # b1=pow(2,steg[i])+b1
-# print b1
-
-# /***************************************************************************************************************/
-
-#                 EXTRACTING information from stego image
-
-# /***************************************************************************************************************/
-for i in range(0,(k*im.height)-2,2):
-    for j in range(0,(k*im.width)-2,2):
-        # print c[i][j],
-        Imin=c[i][j]
-        Imax=c[i][j]
-        L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
-
-        for item in L:
-            if(Imin>item):
-                Imin=item
-            if(Imax<item):
-                Imax=item
-        
-            
-
-        AD=(3*Imin+Imax)/4
-        s[i][j+1]=c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
-        s[i+1][j]=c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
-        s[i+1][j+1]=c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
-        d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
-        d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
-        d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
-        n1=int(math.floor(math.log(d1,2)))
-        n2=int(math.floor(math.log(d2,2)))
-        n3=int(math.floor(math.log(d3,2)))
-   
-
 
 
 # /********************************************************************************************************
@@ -294,8 +233,8 @@ if imgs.mode != 'RGB':
 imgs.save("your_stego.bmp")
 
 print 'succ'
-cv2.imshow("original image",oriimage)
-cv2.imshow("resize image",newimage)
+# cv2.imshow("original image",oriimage)
+# cv2.imshow("resize image",newimage)
 # cv2.imshow("hello","your_stego.bmp")
 print 'error'
-cv2.waitKey(40000)
+# cv2.waitKey(40000)
