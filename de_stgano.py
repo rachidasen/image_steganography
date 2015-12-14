@@ -25,8 +25,11 @@ def d2b(dec):
         b += str(dec%2)
         dec /= 2
     b = reverse(b)
-    b = padding(b,5)
-    print(b)        
+    # b = padding(b,5)
+    # print(b)        
+    return b
+
+
 
 def frombits(bits):
     chars = []
@@ -43,12 +46,24 @@ import scipy
 import Image
 import math
 
-s=cv.LoadImage("your_stego.bmp",0)
-info_str=[]
+s=cv.LoadImage("stego_image.bmp",0)
+
 # s=np.asarray(infoimage[:,:])
 print s.width, s.height
 c = [[0]*s.width for i in range(s.height)]
 i=j=0
+l=80
+cover=cv.LoadImage("cover_image.bmp",0)
+count=0
+for i in range(s.height):
+  for j in range(s.width):
+    if(s[i,j]!=cover[i,j]):
+      count=count+1
+print "diff pixel",count
+
+for i in range(0,s.height,2):
+  for j in range(0,s.width,2):
+    c[i][j]=s[i,j]
 
 
 
@@ -57,12 +72,14 @@ i=j=0
 #                 EXTRACTING information from stego image
 
 # /***************************************************************************************************************/
-for i in range(0,(s.height)-4,2):
-    for j in range(0,(s.width)-4,2):
-        # print c[i][j],
-        Imin=s[i,j]
-        Imax=s[i,j]
-        L=[s[i+2,j+2],s[i+2,j],s[i,j+2]];
+# inf=[]
+# count=l
+
+for i in range(0,(s.height-1),2):
+    for j in range(0,(s.width-1),2):
+        Imin=c[i][j]
+        Imax=c[i][j]
+        L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
 
         for item in L:
             if(Imin>item):
@@ -70,23 +87,113 @@ for i in range(0,(s.height)-4,2):
             if(Imax<item):
                 Imax=item
         
+        AD=(3*Imin+Imax)/4
+
+        c[i][j+1]=(AD + (c[i][j]+c[i][j+2])/2)/2
+        c[i+1][j]=(AD + (c[i][j]+c[i+2][j])/2)/2
+        c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+
+import scipy.misc
+scipy.misc.imsave("test.bmp",c)
+
+n=cv.LoadImage("test.bmp",0)
+
+# /******************************************************************************************************************************************************/
+#                                                             CHECKING BOTH THE IMAGES
+
+# /*****************************************************************************************************************************************************/
+diff=0
+for i in range(0,s.height,1):
+    for j in range(0,s.width,1):
+            if(n[i,j]!=cover[i,j]):
+                print i,j
+                diff=diff+1
+
+print "\n The difference in the pixel value are",diff
+# for i in range(0,(s.height)-1,2):
+    # for j in range(0,(s.width)-1,2):
+    #     Imin=c[i,j]
+    #     Imax=cc[i,j]
+    #     L=[s[i+2,j+2],s[i+2,j],s[i,j+2]];
+
+    #     for item in L:
+    #         if(Imin>item):
+    #             Imin=item
+    #         if(Imax<item):
+    #             Imax=item
+        
             
 
-        AD=(3*Imin+Imax)/4
-        c[i][j+1]=AD + (c[i][j]+c[i][j+2])/4
-        c[i+1][j]=AD + (c[i][j]+c[i+2][j])/4
-        c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
-        d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
-        d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
-        d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
-        print d1,d2,d3
-        n1=int(math.floor(math.log(d1, 2)))
-        n2=int(math.floor(math.log(d2, 2)))
-        n3=int(math.floor(math.log(d3, 2)))
-        b1=c[i][j+1]-s[i,j+1]
-        b2=c[i+1][j]-s[i+1,j]
-        b3=c[i+1][j+1]-s[i+1,j+1]
+    #     AD=(3*Imin+Imax)/4
 
-if __name__ == '__main__':
-    d2b(10)
-    d2b(5)
+    #     c[i][j+1]=(AD + (s[i,j]+s[i,j+2])/2)/2
+    #     c[i+1][j]=(AD + (s[i,j]+s[i+2,j])/2)/2
+    #     c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+        # d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
+        # d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
+        # d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
+        
+    #/****************************************************************************************************/
+
+     #                        Extracting Secret information
+
+    # #/***********************************************************************************************/
+
+    #     if(d1>=2):
+    #         n1=int(math.floor(math.log(d1,2)))
+    #         b1=int(c[i][j+1]-s[i,j+1])
+    #         p=n1 if(count>n1) else count
+    #         # print d1
+    #         if(b1!=0 and count > 0):
+    #             print d1
+    #             # print "b1",d2b(b1)
+    #             count = count - p
+    #             inf.extend(padding(d2b(b1),n1))
+
+              
+    #     if(d2>=2):
+    #         n2=int(math.floor(math.log(d2,2)))
+    #         b2=int(c[i+1][j]-s[i+1,j])
+    #         p=n2 if(count>n2) else count
+    #         # print d2
+    #         if(b2!=0 and count > 0):
+    #             print d2
+    #             # print n2
+    #             # print "b2",d2b(b2)
+    #             count=count - p
+    #             inf.extend(padding(d2b(b2),n2))
+
+               
+    #     if(d3>=2):
+    #         n3=int(math.floor(math.log(d3,2)))
+    #         b3=int(c[i+1][j+1]-s[i+1,j+1])
+    #         p=n3 if(count>n3) else count
+    #         # print d3
+    #         if(b3!=0 and count >0):
+    #             print d3
+    #             print "b3",d2b(b3)
+    #             count=count - p
+    #             inf.extend(padding(d2b(b3),n3))
+
+
+
+# print "count", count
+# # print inf
+# # inf.append(1)
+# inf=map(int,inf)
+# print len(inf)
+
+# print inf
+
+# print frombits(inf)
+
+
+# count=0
+# for i in range(0,s.height):
+#   for j in range(0,s.width):
+#     if(cover[i,j]!=c[i][j]):
+#       count=count+1
+#       print i,j
+# print "diff",count
+# inb="gjikjlkjio jlkjlj "
+# print frombits(tobits(inb))

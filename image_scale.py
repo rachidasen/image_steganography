@@ -103,6 +103,7 @@ b1=b2=b3=0
 # /********************************************************************************************************/
 counter=0
 count21=0
+count=0
 for i in range(0,(k*im.height-2),2):
     for j in range(0,(k*im.width-2),2):
     	# print c[i][j],
@@ -137,11 +138,15 @@ for i in range(0,(k*im.height-2),2):
                 count21=count21+1
                 start=count
                 count= count+n1 if(l>count+n1) else l
+                # print "n1",n1,start,count
+                b1=bina=0
+                
               # embed
                 for kokab in range(count-1,start-1,-1):
-                    bina=0
+                    # print i,j+1
                     b1=pow(2,bina)*steg[kokab]+b1
                     bina=bina+1
+                print "b1",b1,count-1,start
                 s[i][j+1]=s[i][j+1]-b1
               
         if(d2!=0):
@@ -150,10 +155,14 @@ for i in range(0,(k*im.height-2),2):
                 count21=count21+1
                 start=count
                 count= count+n2 if(l>count+n2) else l
+                # print "n2",n2,start,count
+                b2=bina=0
                 for kokab in range(count-1,start-1,-1):
-                    bina=0
+                    # print i+1,j
+                    # print kokab
                     b2=pow(2,bina)*steg[kokab]+b2
                     bina=bina+1
+                print "b2",b2,count-1,start
                 s[i+1][j]=s[i+1][j]-b2
                
         if(d3!=0):
@@ -162,11 +171,13 @@ for i in range(0,(k*im.height-2),2):
                 start=count
                 count=count+n3 if(l>count+n3) else l
                 count21=count21+1
-
+                # print "n3",n3,start,count
+                b3=bina=0
                 for kokab in range(count-1,start-1,-1):
-                    bina=0
+                    # print i+1,j+1
                     b3=pow(2,bina)*steg[kokab]+b3
                     bina=bina+1
+                print "b3",b3,count-1,start
                 s[i+1][j+1]=s[i+1][j+1]-b3
 # print n1,n2,n3
 
@@ -197,7 +208,8 @@ for i in range(k*im.height-1):
             different=different+1
         # print c[i][j],
         # print s_array[i,j],
-    # print "\n"
+        print oriimage[i][j],
+    print "\n"
 # print i,j
 # /*******************************************************************************************************************
     
@@ -260,4 +272,6 @@ print 'succ'
 # cv2.imshow("resize image",newimage)
 # cv2.imshow("hello","your_stego.bmp")
 print 'error'
+print steg
+print frombits(steg)
 # cv2.waitKey(40000)
