@@ -19,10 +19,10 @@ import numpy as np
 import scipy
 import Image
 import math
-filename = "image.bmp"
+filename = "ipimage.bmp"
 zero=0
 count=0
-info="i am kokab"
+info="Raghib"
 # /******************************************************************************************************************
 
 
@@ -58,10 +58,12 @@ oriimage = cv2.imread(filename,0)
 k=2
 newx,newy = oriimage.shape[1]/k,oriimage.shape[0]/k #new size (w,h)
 newimage = cv2.resize(oriimage,(newx,newy))
-cv2.imwrite("new.bmp",newimage)
+cv2.imwrite("scaledim.bmp",newimage)
 # cv.SaveImage("new.jpg", newimage)
-im = cv.LoadImage("new.bmp",0)
+im = cv.LoadImage("scaledim.bmp",0)
 k*im.width
+print "h",im.width
+print k*im.width
 c = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
 s = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
 print k*im.width-1,k*im.height-1
@@ -84,6 +86,10 @@ for i in range(im.height):
     	# print im[i,j],
     # print "\n",i,j,	
 print i,j
+for i in range(1,k*im.height-1,2):
+    s[i][k*im.width-2]=c[i][k*im.width-2]=(s[i-1][k*im.width-2]+s[i+1][k*im.width-2])/2
+for i in range(1,k*im.width-1,2):
+    s[k*im.height-2][i]=c[k*im.height-2][i]=(s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2
 # Making  a cover image 
 # Algo is to make a array of the original size say 
 # 	h=k*im.height;
@@ -132,13 +138,14 @@ for i in range(0,(k*im.height-2),2):
      #                        GENERATING STEGO IMAGE
 
     #/***********************************************************************************************/
-        if(d1!=0):
+        flag=0
+        if(count<l):
     	   n1=int(math.floor(math.log(d1,2)))
-           if(count<l and n1!=0):
+           if(n1!=0):
                 count21=count21+1
                 start=count
                 count= count+n1 if(l>count+n1) else l
-                # print "n1",n1,start,count
+                print "n1",count-start
                 b1=bina=0
                 
               # embed
@@ -146,47 +153,47 @@ for i in range(0,(k*im.height-2),2):
                     # print i,j+1
                     b1=pow(2,bina)*steg[kokab]+b1
                     bina=bina+1
-                print "b1",b1,count-1,start
+                # print "b1",b1,count-1,start
                 s[i][j+1]=s[i][j+1]-b1
-              
-        if(d2!=0):
+             
+        if(count<l):
             n2=int(math.floor(math.log(d2,2)))
             if(count<l and n2!=0):
                 count21=count21+1
                 start=count
                 count= count+n2 if(l>count+n2) else l
-                # print "n2",n2,start,count
+                print "n2",count-start
                 b2=bina=0
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j
                     # print kokab
                     b2=pow(2,bina)*steg[kokab]+b2
                     bina=bina+1
-                print "b2",b2,count-1,start
+                # print "b2",b2,count-1,start
                 s[i+1][j]=s[i+1][j]-b2
-               
-        if(d3!=0):
+        # print "d1",d1
+        if(count<l):
             n3=int(math.floor(math.log(d3,2)))
             if(count<l and n3!=0):
                 start=count
                 count=count+n3 if(l>count+n3) else l
                 count21=count21+1
-                # print "n3",n3,start,count
+                print "n3",count-start
                 b3=bina=0
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j+1
                     b3=pow(2,bina)*steg[kokab]+b3
                     bina=bina+1
-                print "b3",b3,count-1,start
+                # print "b3",b3,count-1,start
                 s[i+1][j+1]=s[i+1][j+1]-b3
 # print n1,n2,n3
 
-
+c_array=np.asarray(c)
 s_array=np.asarray(s)
 
 
 
-print "No of pixels getting changed actually",count21
+print "No of pixels getting changed actually",count21,count
 
 # /********************************************************************************************************/
 
@@ -199,17 +206,17 @@ zero2=0
 different=0
 for i in range(k*im.height-1):
     for j in range(k*im.width-1):
-        if(c[i][j]==0):
+        if(c[i][j]<=1):
             zero=zero+1
-        if(s_array[i,j]==0):
+        if(s[i][j]<=1):
             zero2=zero2+1
-        if(c[i][j]!=s_array[i,j]):
+        if(c[i][j]!=s[i][j]):
             # print i,j,c[i][j],s[i][j]
             different=different+1
         # print c[i][j],
         # print s_array[i,j],
-        print oriimage[i][j],
-    print "\n"
+        # print oriimage[i][j],
+    # print "\n"
 # print i,j
 # /*******************************************************************************************************************
     
@@ -233,10 +240,26 @@ else:
 
 
 # /********************************************************************************************************
-c_array=np.asarray(c)
-import scipy.misc
-scipy.misc.imsave("cover_image.bmp",c_array)
-scipy.misc.imsave("stego_image.bmp",s_array)
+cv2.imwrite("stego_image.bmp",s_array);
+cv2.imwrite("cover_image.bmp",c_array);
+
+# import scipy.misc
+# scipy.misc.imsave("cover_image.bmp",c)
+# scipy.misc.imsave("stego_image.bmp",s)
+
+
+# cover=cv.LoadImage("cover_image.bmp",0)
+# count=0
+# zero=0
+# for i in range(cover.height):
+#   for j in range(cover.width):
+#     if(cover[i,j]!=c[i][j]):
+#       count=count+1
+#     if(cover[i,j]==0):
+#         zero=zero+1
+#         print i,j
+# print "Actual Count and zero",count,zero
+
 # ime = Image.fromarray(c_array)
 # if ime.mode != 'RGB':
 #     ime = ime.convert('RGB')
@@ -266,7 +289,7 @@ scipy.misc.imsave("stego_image.bmp",s_array)
 #     if(s[i,j]!=c[i,j]):
 #       count=count+1
 # print count
-
+print c[508][480],c[509][481],c[510][484]
 print 'succ'
 # cv2.imshow("original image",oriimage)
 # cv2.imshow("resize image",newimage)
@@ -274,4 +297,4 @@ print 'succ'
 print 'error'
 print steg
 print frombits(steg)
-# cv2.waitKey(40000)
+cv2.waitKey(40000)
