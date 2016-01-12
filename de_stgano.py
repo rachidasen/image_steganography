@@ -2,7 +2,7 @@ def tobits(s):
     result = []
     for c in s:
         bits = bin(ord(c))[2:]
-        bits = '00000000'[len(bits):] + bits
+        bits = '0000000'[len(bits):] + bits
         result.extend([int(b) for b in bits])
     return result
 
@@ -33,8 +33,8 @@ def d2b(dec):
 
 def frombits(bits):
     chars = []
-    for b in range(len(bits) / 8):
-        byte = bits[b*8:(b+1)*8]
+    for b in range(len(bits) / 7):
+        byte = bits[b*7:(b+1)*7]
         chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
     return ''.join(chars)
 
@@ -128,7 +128,7 @@ print "\n The difference in the pixel value are",diff
 #                            Extracting Secret information
 
 #/****************************************************************************************************/
-l=48
+l=21
 zero=0
 count=l
 inf=[]
@@ -201,19 +201,19 @@ for i in range(0,(s.height)-1,2):
 
 
 
-# print "count", count
+print "count", count
 # print inf
-print len(inf)
 # inf.append(1)
 inf=map(int,inf)
+print len(inf)
+
 # print len(inf),l,"zero",zero
 # print "hjkhkhj"
 print inf
 
-print frombits(inf)
+print "After exttraction secret message is  ", frombits(inf)
 # print "hellohjh"
 # msg="i am kokab"
 # msge=tobits(msg)
 # print msge
-count=0
-# print frombits(inf)
+
