@@ -22,7 +22,7 @@ import math
 filename = "ipimage1.bmp"
 zero=0
 count=0
-info="ab#"
+info="hell##"
 # /******************************************************************************************************************
 
 
@@ -87,9 +87,9 @@ for i in range(im.height):
     # print "\n",i,j,	
 print i,j
 for i in range(1,k*im.height-1,2):
-    s[i][k*im.width-2]=c[i][k*im.width-2]=(s[i-1][k*im.width-2]+s[i+1][k*im.width-2])/2
+    s[i][k*im.width-2]=c[i][k*im.width-2]=round((s[i-1][k*im.width-2]+s[i+1][k*im.width-2])/2)
 for i in range(1,k*im.width-1,2):
-    s[k*im.height-2][i]=c[k*im.height-2][i]=(s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2
+    s[k*im.height-2][i]=c[k*im.height-2][i]=(round(s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2)
 # Making  a cover image 
 # Algo is to make a array of the original size say 
 # 	h=k*im.height;
@@ -125,9 +125,9 @@ for i in range(0,(k*im.height-2),2):
     	
     	AD=(3*Imin+Imax)/4
 
-    	s[i][j+1]=c[i][j+1]=(AD + (c[i][j]+c[i][j+2])/2)/2
-    	s[i+1][j]=c[i+1][j]=(AD + (c[i][j]+c[i+2][j])/2)/2
-    	s[i+1][j+1]=c[i+1][j+1]=(c[i][j]+c[i+1][j]+c[i][j+1])/3
+    	s[i][j+1]=c[i][j+1]=round((AD + (c[i][j]+c[i][j+2])/2)/2)
+    	s[i+1][j]=c[i+1][j]=round((AD + (c[i][j]+c[i+2][j])/2)/2)
+    	s[i+1][j+1]=c[i+1][j+1]=round((c[i][j]+c[i+1][j]+c[i][j+1])/3)
     	d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
     	d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
     	d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
@@ -153,7 +153,7 @@ for i in range(0,(k*im.height-2),2):
                     # print i,j+1
                     b1=pow(2,bina)*steg[kokab]+b1
                     bina=bina+1
-                # print "b1",b1,count-1,start
+                print "b1",b1,c[i][j+1],s[i+1][j+1]
                 s[i][j+1]=s[i][j+1]-b1
              
         if(count<l):
@@ -162,14 +162,14 @@ for i in range(0,(k*im.height-2),2):
                 count21=count21+1
                 start=count
                 count= count+n2 if(l>count+n2) else l
-                print "n2",count-start
+                print "d2",d2,"n2",count-start
                 b2=bina=0
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j
                     # print kokab
                     b2=pow(2,bina)*steg[kokab]+b2
                     bina=bina+1
-                # print "b2",b2,count-1,start
+                print "b2",b2,c[i+1][j],s[i+1][j]
                 s[i+1][j]=s[i+1][j]-b2
         # print "d1",d1
         if(count<l):
@@ -184,7 +184,7 @@ for i in range(0,(k*im.height-2),2):
                     # print i+1,j+1
                     b3=pow(2,bina)*steg[kokab]+b3
                     bina=bina+1
-                # print "b3",b3,count-1,start
+                print "b3",b3,c[i+1][j+1],s[i+1][j+1]
                 s[i+1][j+1]=s[i+1][j+1]-b3
 # print n1,n2,n3
 
@@ -224,7 +224,7 @@ for i in range(k*im.height-1):
 
 # /*******************************************************************************************************************
 print "No of zeo in cover image",zero
-print "len of string",l
+print "len of string",l,"type of l",type(steg)
 print "No of zero in stego image",zero2
 print "value of count",count
 print "different no of pixels in cover and stego", different
