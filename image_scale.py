@@ -108,6 +108,25 @@ b1=b2=b3=0
 #                         MAKING COVER IMAGE AS WELL AS STEGO IMAGE
 
 # /********************************************************************************************************/
+n=k*im.height-1
+m=k*im.width-1
+
+if(n%2)!=0:
+    n-=1
+if(m%2)!=0:
+    m-=1
+size=(n*m/4)
+print size  
+# array=[[]]
+array=[]
+for i in range(0,n,2):
+  for j in range(0,m,2):
+    li=[]
+    li.append(i)
+    li.append(j)
+    # print type(c)
+    # print (c)
+    array.append((li))
 counter=0
 count21=0
 count=0
@@ -129,71 +148,106 @@ for i in range(0,(k*im.height-2),2):
     	s[i][j+1]=c[i][j+1]=round((AD + (c[i][j]+c[i][j+2])/2)/2)
     	s[i+1][j]=c[i+1][j]=round((AD + (c[i][j]+c[i+2][j])/2)/2)
     	s[i+1][j+1]=c[i+1][j+1]=round((c[i][j]+c[i+1][j]+c[i][j+1])/3)
-    	d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
-    	d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
-    	d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
-        # print Imin,Imax,c[i][j+1],c[i+1][j],c[i+1][j+1],d1,d2,d3
+
+
+
+
+
+a=2.8568234567123456789213456789876543212345
+x=3.80
+pos=size-1
+while(1):
+    if size==0:
+        break
+    y=a*abs(1-x)
+    y=int(y*pow(10,40))
+    # print y
+    y=y%(size)
+    # print array[y]
+    i=array[y][0]
+    j=array[y][1]
+    Imin=c[i][j]
+    Imax=c[i][j]
+    L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
+
+    for item in L:
+        if(Imin>item):
+            Imin=item
+        if(Imax<item):
+            Imax=item
+
+    d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
+    d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
+    d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
+    # print Imin,Imax,c[i][j+1],c[i+1][j],c[i+1][j+1],d1,d2,d3
 
     #/****************************************************************************************************/
 
-     #                        GENERATING STEGO IMAGE
+    #                        GENERATING STEGO IMAGE
 
     #/***********************************************************************************************/
-        flag=0
-        if(count<l):
-    	   n1=int(math.floor(math.log(d1,2)))
-           if(n1!=0):
-                count21=count21+1
-                start=count
-                count= count+n1 
-                print "n1",count-start
-                if count > l:
-                    steg+=(count-l)*[0]
-                b1=bina=0
-                
-              # embed
-                for kokab in range(count-1,start-1,-1):
-                    # print i,j+1
-                    b1=pow(2,bina)*steg[kokab]+b1
-                    bina=bina+1
-                print "b1",b1,c[i][j+1],s[i+1][j+1]
-                s[i][j+1]=s[i][j+1]-b1
-             
-        if(count<l):
-            n2=int(math.floor(math.log(d2,2)))
-            if(count<l and n2!=0):
-                count21=count21+1
-                start=count
-                count= count+n2 
-                print "d2",d2,"n2",count-start
-                b2=bina=0
-                if count > l:
-                    steg+=(count-l)*[0]
-                for kokab in range(count-1,start-1,-1):
-                    # print i+1,j
-                    # print kokab
-                    b2=pow(2,bina)*steg[kokab]+b2
-                    bina=bina+1
-                print "b2",b2,c[i+1][j],s[i+1][j]
-                s[i+1][j]=s[i+1][j]-b2
-        # print "d1",d1
-        if(count<l):
-            n3=int(math.floor(math.log(d3,2)))
-            if(count<l and n3!=0):
-                start=count
-                count=count+n3 
-                count21=count21+1
-                print "n3",count-start
-                b3=bina=0
-                if count > l:
-                    steg+=(count-l)*[0]
-                for kokab in range(count-1,start-1,-1):
-                    # print i+1,j+1
-                    b3=pow(2,bina)*steg[kokab]+b3
-                    bina=bina+1
-                print "b3",b3,c[i+1][j+1],s[i+1][j+1]
-                s[i+1][j+1]=s[i+1][j+1]-b3
+    flag=0
+    if(count<l):b
+       n1=int(math.floor(math.log(d1,2)))
+       if(n1!=0):
+            count21=count21+1
+            start=count
+            count= count+n1 
+            print "n1",count-start
+            if count > l:
+                steg+=(count-l)*[0]
+            b1=bina=0
+            
+          # embed
+            for kokab in range(count-1,start-1,-1):
+                # print i,j+1
+                b1=pow(2,bina)*steg[kokab]+b1
+                bina=bina+1
+            print "b1",b1,c[i][j+1],s[i+1][j+1]
+            s[i][j+1]=s[i][j+1]-b1
+         
+    if(count<l):
+        n2=int(math.floor(math.log(d2,2)))
+        if(count<l and n2!=0):
+            count21=count21+1
+            start=count
+            count= count+n2 
+            print "d2",d2,"n2",count-start
+            b2=bina=0
+            if count > l:
+                steg+=(count-l)*[0]
+            for kokab in range(count-1,start-1,-1):
+                # print i+1,j
+                # print kokab
+                b2=pow(2,bina)*steg[kokab]+b2
+                bina=bina+1
+            print "b2",b2,c[i+1][j],s[i+1][j]
+            s[i+1][j]=s[i+1][j]-b2
+    # print "d1",d1
+    if(count<l):
+        n3=int(math.floor(math.log(d3,2)))
+        if(count<l and n3!=0):
+            start=count
+            count=count+n3 
+            count21=count21+1
+            print "n3",count-start
+            b3=bina=0
+            if count > l:
+                steg+=(count-l)*[0]
+            for kokab in range(count-1,start-1,-1):
+                # print i+1,j+1
+                b3=pow(2,bina)*steg[kokab]+b3
+                bina=bina+1
+            print "b3",b3,c[i+1][j+1],s[i+1][j+1]
+            s[i+1][j+1]=s[i+1][j+1]-b3
+    size-=1        
+    array[y],array[pos]=array[pos],array[y]
+    x=y
+    pos-=1
+    
+
 # print n1,n2,n3
+
 
 c_array=np.asarray(c)
 s_array=np.asarray(s)

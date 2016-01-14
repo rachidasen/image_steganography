@@ -80,7 +80,7 @@ for i in range(1,s.width,2):
 
 # /***************************************************************************************************************/
 
-#                 EXTRACTING information from stego image
+#                 EXTRACTING cover image from stego image
 
 # /***************************************************************************************************************/
 
@@ -130,6 +130,25 @@ print "\n The difference in the pixel value are",diff
 #                            Extracting Secret information
 
 #/****************************************************************************************************/
+n=height
+m=width
+
+if(n%2)!=0:
+    n-=1
+if(m%2)!=0:
+    m-=1
+size=(n*m/4)
+print size  
+# array=[[]]
+array=[]
+for i in range(0,n,2):
+  for j in range(0,m,2):
+    li=[]
+    li.append(i)
+    li.append(j)
+    # print type(c)
+    # print (c)
+    array.append((li))
 l=21
 zero=0
 counter=0
@@ -140,179 +159,193 @@ si=cv2.imread("stego_image.bmp",0)
 # c_array=np.asarray(c)
 temp=[]
 flag=0
-for i in range(0,(height),2):
-    for j in range(0,(width),2):
-        Imin=c[i][j]
-        Imax=c[i][j]
-        L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
-
-        for item in L:
-            if(Imin>item):
-                Imin=item
-            if(Imax<item):
-                Imax=item
-        
-        d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
-        d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
-        d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
-        
-
-        
-        
-        if(d1>=2):
-            p=n1=int(math.floor(math.log(d1,2)))
-            b1=int(round(round(c[i][j+1])-si[i][j+1]))
-            # p=n1 if(count>n1) else count
-            # print "b1",b1
-
-            if(n1 >=1 and p > 0):
-
-                print "n1",n1
-                padder=[]
-
-                print "b1",b1,c[i][j+1],si[i][j+1]
-                if(counter+p)>=7:
-                    d=7-counter
-                    padder=padding(d2b(b1),n1)
-                    # read starting d bits store it in temp
-                    # c=0
-                    # while c < d:
-                    temp.extend(padder[:d])
-                    counter=counter+d
-                    # Now temp is 7 bit
-                    print "lenght",len(temp),d,counter
-
-                    counter=0
-                    # zzz="#"
-                    if frombits(map(int,temp))=="#":
-                        print "success"
-                        flag=1
-                        break
-                    # if b1==0:
-                        # break
-                    # the reaming bit (p-d) save it in temp
-                    temp=[]
-                    temp.extend(padder[d:])
-                    counter=counter+n1-d
-
-                    # print "temp",temp
-                    # saved the remaining p-d from padder to 
-
-                else:
-                    counter=counter+n1
-                    temp.extend(padding(d2b(b1),p))
-
-
-                # print "b1",d2b(b1)
-                count = count - p
-                zero=zero+p
-                inf.extend(padding(d2b(b1),p))
-
-              
-        if(d2>=2):
-            p=n2=int(math.floor(math.log(d2,2)))
-            b2=int(round(round(c[i+1][j])-si[i+1][j]))
-            # p=n2 if(count>n2) else count
-            # print "b2",b2
-            # padder=[]
-            if(n2 >=1 and p > 0):
-                print "d2",d2,"n2",n2
-
-                print "b2",b2,c[i+1][j],si[i+1][j]
-
-                # print n2
-
-                # print "b2",d2b(b2)
-                padder=[]
-                count=count - p
-                zero=zero+p
-                if(counter+n2)>=7:
-                    d=7-counter
-                    padder=padding(d2b(b2),n2)
-                    # read starting d bits store it in temp
-                    # c=0
-                    # while c < d:
-                    temp.extend(padder[:d])
-                    counter=counter+d
-                    # Now temp is 7 bit
-                    print "padder",padder
-                    print "lengths",len(temp),d,counter,temp,frombits(map(int,temp))
-
-                    counter=0
-                    # zzz="#"
-                    if frombits(map(int,temp))=="#":
-                        print "success"
-                        flag=1
-                        break
-                    # if b2==0:
-                        # break
-                    # the reaming bit (p-d) save it in temp
-                    temp=[]
-                    temp.extend(padder[d:])
-                    counter=counter+n2-d
-                    # print "temp",temp
-                    # saved the remaining p-d from padder to 
-
-                else:
-                    counter=counter+n2
-                    temp.extend(padding(d2b(b2),p))
-
-                inf.extend(padding(d2b(b2),p))
-
-               
-        if(d3>=2):
-            p=n3=int(math.floor(math.log(d3,2)))
-            b3=int(round(round(c[i+1][j+1])-si[i+1][j+1]))
-            # p=n3 if(count>n3) else count
-            # print "b3"
-            if(n3 >=1 and p > 0):
-                print "n3",n3
-
-                # print p
-                padder=[]
-                print "b3",b3,c[i+1][j+1],si[i+1][j+1]
-                # p=n3 if(count>n3) else count
-
-                # print "b3",d2b(b3)
-                count=count - p
-                zero=zero+p
-                if(counter+p)>=7:
-                    d=7-counter
-                    padder=padding(d2b(b3),p)
-                    # read starting d bits store it in temp
-                    # c=0
-                    counter=counter+d
-                    # while c < d:
-                    temp.extend(padder[:d])
-                
-                    # Now temp is 7 bit
-                    print "length",len(temp),d,counter
-                    print "p-d d",p-d,d,
-
-                    counter=0
-                    # zzz="#"
-                    if frombits(map(int,temp))=="#":
-                        print "succss"
-                        flag=1
-                        break
-                    # if b3==0:
-                    #     break
-                    # the reaming bit (p-d) save it in temp
-                    temp=[]
-                    counter=counter+n3-d
-                    temp.extend(padder[d:])
-                    print "padder",padder,temp
-                    # print "temp",temp
-                    # saved the remaining p-d from padder to 
-
-                else:
-                    counter=counter+n3
-                    print "no"
-                    temp.extend(padding(d2b(b3),p))
-
-                inf.extend(padding(d2b(b3),p))
-    if flag==1:
+a=2.8568234567123456789213456789876543212345
+x=3.80
+pos=size-1
+while(1):
+    if size==0:
         break
+    y=a*abs(1-x)
+    y=int(y*pow(10,40))
+    # print y
+    y=y%(size)
+    # print array[y]
+    i=array[y][0]
+    j=array[y][1]
+   
+    Imin=c[i][j]
+    Imax=c[i][j]
+    L=[c[i+2][j+2],c[i+2][j],c[i][j+2]];
+
+    for item in L:
+        if(Imin>item):
+            Imin=item
+        if(Imax<item):
+            Imax=item
+    
+    d1=Imax-c[i][j+1]if c[i][j+1]<(Imin+Imax)/2 else c[i][j+1]-Imin
+    d2=Imax-c[i+1][j]if c[i+1][j]<(Imin+Imax)/2 else c[i+1][j]-Imin
+    d3=Imax-c[i+1][j+1]if c[i+1][j+1]<(Imin+Imax)/2 else c[i+1][j+1]-Imin
+    
+
+    
+    
+    if(d1>=2):
+        p=n1=int(math.floor(math.log(d1,2)))
+        b1=int(round(round(c[i][j+1])-si[i][j+1]))
+        # p=n1 if(count>n1) else count
+        # print "b1",b1
+
+        if(n1 >=1 and p > 0):
+
+            print "n1",n1
+            padder=[]
+
+            print "b1",b1,c[i][j+1],si[i][j+1]
+            if(counter+p)>=7:
+                d=7-counter
+                padder=padding(d2b(b1),n1)
+                # read starting d bits store it in temp
+                # c=0
+                # while c < d:
+                temp.extend(padder[:d])
+                counter=counter+d
+                # Now temp is 7 bit
+                print "lenght",len(temp),d,counter
+
+                counter=0
+                # zzz="#"
+                if frombits(map(int,temp))=="#":
+                    print "success"
+                    flag=1
+                    break
+                # if b1==0:
+                    # break
+                # the reaming bit (p-d) save it in temp
+                temp=[]
+                temp.extend(padder[d:])
+                counter=counter+n1-d
+
+                # print "temp",temp
+                # saved the remaining p-d from padder to 
+
+            else:
+                counter=counter+n1
+                temp.extend(padding(d2b(b1),p))
+
+
+            # print "b1",d2b(b1)
+            count = count - p
+            zero=zero+p
+            inf.extend(padding(d2b(b1),p))
+
+          
+    if(d2>=2):
+        p=n2=int(math.floor(math.log(d2,2)))
+        b2=int(round(round(c[i+1][j])-si[i+1][j]))
+        # p=n2 if(count>n2) else count
+        # print "b2",b2
+        # padder=[]
+        if(n2 >=1 and p > 0):
+            print "d2",d2,"n2",n2
+
+            print "b2",b2,c[i+1][j],si[i+1][j]
+
+            # print n2
+
+            # print "b2",d2b(b2)
+            padder=[]
+            count=count - p
+            zero=zero+p
+            if(counter+n2)>=7:
+                d=7-counter
+                padder=padding(d2b(b2),n2)
+                # read starting d bits store it in temp
+                # c=0
+                # while c < d:
+                temp.extend(padder[:d])
+                counter=counter+d
+                # Now temp is 7 bit
+                print "padder",padder
+                print "lengths",len(temp),d,counter,temp,frombits(map(int,temp))
+
+                counter=0
+                # zzz="#"
+                if frombits(map(int,temp))=="#":
+                    print "success"
+                    flag=1
+                    break
+                # if b2==0:
+                    # break
+                # the reaming bit (p-d) save it in temp
+                temp=[]
+                temp.extend(padder[d:])
+                counter=counter+n2-d
+                # print "temp",temp
+                # saved the remaining p-d from padder to 
+
+            else:
+                counter=counter+n2
+                temp.extend(padding(d2b(b2),p))
+
+            inf.extend(padding(d2b(b2),p))
+
+           
+    if(d3>=2):
+        p=n3=int(math.floor(math.log(d3,2)))
+        b3=int(round(round(c[i+1][j+1])-si[i+1][j+1]))
+        # p=n3 if(count>n3) else count
+        # print "b3"
+        if(n3 >=1 and p > 0):
+            print "n3",n3
+
+            # print p
+            padder=[]
+            print "b3",b3,c[i+1][j+1],si[i+1][j+1]
+            # p=n3 if(count>n3) else count
+
+            # print "b3",d2b(b3)
+            count=count - p
+            zero=zero+p
+            if(counter+p)>=7:
+                d=7-counter
+                padder=padding(d2b(b3),p)
+                # read starting d bits store it in temp
+                # c=0
+                counter=counter+d
+                # while c < d:
+                temp.extend(padder[:d])
+            
+                # Now temp is 7 bit
+                print "length",len(temp),d,counter
+                print "p-d d",p-d,d,
+
+                counter=0
+                # zzz="#"
+                if frombits(map(int,temp))=="#":
+                    print "succss"
+                    flag=1
+                    break
+                # if b3==0:
+                #     break
+                # the reaming bit (p-d) save it in temp
+                temp=[]
+                counter=counter+n3-d
+                temp.extend(padder[d:])
+                print "padder",padder,temp
+                # print "temp",temp
+                # saved the remaining p-d from padder to 
+
+            else:
+                counter=counter+n3
+                print "no"
+                temp.extend(padding(d2b(b3),p))
+
+            inf.extend(padding(d2b(b3),p))
+    size-=1        
+    array[y],array[pos]=array[pos],array[y]
+    x=y
+    pos-=1
 
 
 
