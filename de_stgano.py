@@ -138,6 +138,8 @@ inf=[]
 si=cv2.imread("stego_image.bmp",0)
 
 # c_array=np.asarray(c)
+temp=[]
+flag=0
 for i in range(0,(height),2):
     for j in range(0,(width),2):
         Imin=c[i][j]
@@ -156,11 +158,11 @@ for i in range(0,(height),2):
         
 
         
-        temp=[]
+        
         if(d1>=2):
-            n1=int(math.floor(math.log(d1,2)))
+            p=n1=int(math.floor(math.log(d1,2)))
             b1=int(round(round(c[i][j+1])-si[i][j+1]))
-            p=n1 if(count>n1) else count
+            # p=n1 if(count>n1) else count
             # print "b1",b1
 
             if(n1 >=1 and p > 0):
@@ -171,7 +173,7 @@ for i in range(0,(height),2):
                 print "b1",b1,c[i][j+1],si[i][j+1]
                 if(counter+p)>=7:
                     d=7-counter
-                    padder=padding(d2b(b1),p)
+                    padder=padding(d2b(b1),n1)
                     # read starting d bits store it in temp
                     # c=0
                     # while c < d:
@@ -184,17 +186,20 @@ for i in range(0,(height),2):
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
                         print "success"
+                        flag=1
                         break
+                    # if b1==0:
+                        # break
                     # the reaming bit (p-d) save it in temp
                     temp=[]
                     temp.extend(padder[d:])
-                    counter=counter+p-d
+                    counter=counter+n1-d
 
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+p
+                    counter=counter+n1
                     temp.extend(padding(d2b(b1),p))
 
 
@@ -205,9 +210,9 @@ for i in range(0,(height),2):
 
               
         if(d2>=2):
-            n2=int(math.floor(math.log(d2,2)))
+            p=n2=int(math.floor(math.log(d2,2)))
             b2=int(round(round(c[i+1][j])-si[i+1][j]))
-            p=n2 if(count>n2) else count
+            # p=n2 if(count>n2) else count
             # print "b2",b2
             # padder=[]
             if(n2 >=1 and p > 0):
@@ -221,40 +226,44 @@ for i in range(0,(height),2):
                 padder=[]
                 count=count - p
                 zero=zero+p
-                if(counter+p)>=7:
+                if(counter+n2)>=7:
                     d=7-counter
-                    padder=padding(d2b(b1),p)
+                    padder=padding(d2b(b2),n2)
                     # read starting d bits store it in temp
                     # c=0
                     # while c < d:
                     temp.extend(padder[:d])
                     counter=counter+d
                     # Now temp is 7 bit
-                    print "lengths",len(temp),d,counter
+                    print "padder",padder
+                    print "lengths",len(temp),d,counter,temp,frombits(map(int,temp))
 
                     counter=0
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
                         print "success"
+                        flag=1
                         break
+                    # if b2==0:
+                        # break
                     # the reaming bit (p-d) save it in temp
                     temp=[]
                     temp.extend(padder[d:])
-                    counter=counter+p-d
+                    counter=counter+n2-d
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+p
+                    counter=counter+n2
                     temp.extend(padding(d2b(b2),p))
 
                 inf.extend(padding(d2b(b2),p))
 
                
         if(d3>=2):
-            n3=int(math.floor(math.log(d3,2)))
+            p=n3=int(math.floor(math.log(d3,2)))
             b3=int(round(round(c[i+1][j+1])-si[i+1][j+1]))
-            p=n3 if(count>n3) else count
+            # p=n3 if(count>n3) else count
             # print "b3"
             if(n3 >=1 and p > 0):
                 print "n3",n3
@@ -269,7 +278,7 @@ for i in range(0,(height),2):
                 zero=zero+p
                 if(counter+p)>=7:
                     d=7-counter
-                    padder=padding(d2b(b1),p)
+                    padder=padding(d2b(b3),p)
                     # read starting d bits store it in temp
                     # c=0
                     counter=counter+d
@@ -284,23 +293,26 @@ for i in range(0,(height),2):
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
                         print "succss"
+                        flag=1
                         break
+                    # if b3==0:
+                    #     break
                     # the reaming bit (p-d) save it in temp
                     temp=[]
-                    counter=counter+p-d
+                    counter=counter+n3-d
                     temp.extend(padder[d:])
                     print "padder",padder,temp
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+p
+                    counter=counter+n3
                     print "no"
                     temp.extend(padding(d2b(b3),p))
 
                 inf.extend(padding(d2b(b3),p))
-        if count == 0:
-            break
+    if flag==1:
+        break
 
 
 

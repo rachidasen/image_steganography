@@ -22,7 +22,8 @@ import math
 filename = "ipimage1.bmp"
 zero=0
 count=0
-info="ab#"
+info="Hera this dessage is for you  wherever you are remember you are my love i don't know how but you are so please keep this photo#"
+# info="ab#"
 # /******************************************************************************************************************
 
 
@@ -89,7 +90,7 @@ print i,j
 for i in range(1,k*im.height-1,2):
     s[i][k*im.width-2]=c[i][k*im.width-2]=round((s[i-1][k*im.width-2]+s[i+1][k*im.width-2])/2)
 for i in range(1,k*im.width-1,2):
-    s[k*im.height-2][i]=c[k*im.height-2][i]=(round(s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2)
+    s[k*im.height-2][i]=c[k*im.height-2][i]=round((s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2)
 # Making  a cover image 
 # Algo is to make a array of the original size say 
 # 	h=k*im.height;
@@ -144,8 +145,10 @@ for i in range(0,(k*im.height-2),2):
            if(n1!=0):
                 count21=count21+1
                 start=count
-                count= count+n1 if(l>count+n1) else l
+                count= count+n1 
                 print "n1",count-start
+                if count > l:
+                    steg+=(count-l)*[0]
                 b1=bina=0
                 
               # embed
@@ -161,9 +164,11 @@ for i in range(0,(k*im.height-2),2):
             if(count<l and n2!=0):
                 count21=count21+1
                 start=count
-                count= count+n2 if(l>count+n2) else l
+                count= count+n2 
                 print "d2",d2,"n2",count-start
                 b2=bina=0
+                if count > l:
+                    steg+=(count-l)*[0]
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j
                     # print kokab
@@ -176,10 +181,12 @@ for i in range(0,(k*im.height-2),2):
             n3=int(math.floor(math.log(d3,2)))
             if(count<l and n3!=0):
                 start=count
-                count=count+n3 if(l>count+n3) else l
+                count=count+n3 
                 count21=count21+1
                 print "n3",count-start
                 b3=bina=0
+                if count > l:
+                    steg+=(count-l)*[0]
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j+1
                     b3=pow(2,bina)*steg[kokab]+b3
