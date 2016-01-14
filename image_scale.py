@@ -22,37 +22,11 @@ import math
 filename = "ipimage1.bmp"
 zero=0
 count=0
-info="Hera this dessage is for you  wherever you are remember you are my love i don't know how but you are so please keep this photo#"
-# info="ab#"
-# /******************************************************************************************************************
-
-
-#                         READING A SECRET INFORMATION
+message="Hera this dessage is for you  wherever you are remember you are my love i don't know how but you are so please keep this photo#"
 
 # /*******************************************************************************************************************
-# infoimage=cv.LoadImage("new.jpg",0)
-# info_str=[]
-# info_array=np.asarray(infoimage[:,:])
 
-# for i in range(infoimage.height):
-#     for j in range(infoimage.width):
-#         info_str.extend(bin(info_array[i,j])[2:]),
-#     # print "\n"
-# # print info_array
-# # Converting info_str into integer list
-# for i in range(len(info_str)):
-#     info_str[i]=int(info_str[i])
-#     # print info_str[i]
-# ig_str = cv2.imencode('.jpg', info_array)[1].tostring()
-# # T2 = [map(int, x) for x in ig_str]
-# print "info imafge"
-# print type(ig_str)
-# print info_str
-# steg=strinfo = ''.join(info_str)
-# image reading steg=info_str
-# print info_str
-# print strinfo
-steg=tobits(info)
+steg=tobits(message)
 l=len(steg)
 
 oriimage = cv2.imread(filename,0)
@@ -68,11 +42,7 @@ print k*im.width
 c = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
 s = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
 print k*im.width-1,k*im.height-1
-# c[][]=[k*im.height][k*im.width]
 
-# displaying the matrix form of image
-# gray = cv2.cvtCOLOR(im, cv2.COLOR_BGR2GRAY)
-# print gray
 
 # /********************************************************************************************************88
 
@@ -81,27 +51,15 @@ print k*im.width-1,k*im.height-1
 # /***********************************************************************************************************/
 for i in range(im.height):
     for j in range(im.width):
-    	# print im[i,j],
-    	# if(i%2==0):
     	s[2*i][2*j]=c[2*i][2*j]=im[i,j]
-    	# print im[i,j],
-    # print "\n",i,j,	
-print i,j
+
 for i in range(1,k*im.height-1,2):
     s[i][k*im.width-2]=c[i][k*im.width-2]=round((s[i-1][k*im.width-2]+s[i+1][k*im.width-2])/2)
 for i in range(1,k*im.width-1,2):
     s[k*im.height-2][i]=c[k*im.height-2][i]=round((s[k*im.width-2][i-1]+s[k*im.width-2][i+1])/2)
-# Making  a cover image 
-# Algo is to make a array of the original size say 
-# 	h=k*im.height;
-# 	l=k*im.width;
-# then copy unchanged pixel of im array to array C;
-# that is c[i`,j`]=im[i,j]; where i`=2*i,j`=2*j;
+b=0
 
-# for i in range()
-b1=b2=b3=0
 
-# scipy.misc.imsave('outfile.jpg', image_array)
 
 # /*********************************************************************************************************/
 
@@ -146,18 +104,18 @@ for i in range(0,(k*im.height-2),2):
                 count21=count21+1
                 start=count
                 count= count+n1 
-                print "n1",count-start
+                # print "n1",count-start
                 if count > l:
                     steg+=(count-l)*[0]
-                b1=bina=0
+                b=bina=0
                 
               # embed
                 for kokab in range(count-1,start-1,-1):
                     # print i,j+1
-                    b1=pow(2,bina)*steg[kokab]+b1
+                    b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
-                print "b1",b1,c[i][j+1],s[i+1][j+1]
-                s[i][j+1]=s[i][j+1]-b1
+                # print "b",b,c[i][j+1],s[i+1][j+1]
+                s[i][j+1]=s[i][j+1]-b
              
         if(count<l):
             n2=int(math.floor(math.log(d2,2)))
@@ -165,17 +123,17 @@ for i in range(0,(k*im.height-2),2):
                 count21=count21+1
                 start=count
                 count= count+n2 
-                print "d2",d2,"n2",count-start
-                b2=bina=0
+                # print "d2",d2,"n2",count-start
+                b=bina=0
                 if count > l:
                     steg+=(count-l)*[0]
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j
                     # print kokab
-                    b2=pow(2,bina)*steg[kokab]+b2
+                    b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
-                print "b2",b2,c[i+1][j],s[i+1][j]
-                s[i+1][j]=s[i+1][j]-b2
+                # print "b",b,c[i+1][j],s[i+1][j]
+                s[i+1][j]=s[i+1][j]-b
         # print "d1",d1
         if(count<l):
             n3=int(math.floor(math.log(d3,2)))
@@ -183,16 +141,16 @@ for i in range(0,(k*im.height-2),2):
                 start=count
                 count=count+n3 
                 count21=count21+1
-                print "n3",count-start
-                b3=bina=0
+                # print "n3",count-start
+                b=bina=0
                 if count > l:
                     steg+=(count-l)*[0]
                 for kokab in range(count-1,start-1,-1):
                     # print i+1,j+1
-                    b3=pow(2,bina)*steg[kokab]+b3
+                    b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
-                print "b3",b3,c[i+1][j+1],s[i+1][j+1]
-                s[i+1][j+1]=s[i+1][j+1]-b3
+                # print "b",b,c[i+1][j+1],s[i+1][j+1]
+                s[i+1][j+1]=s[i+1][j+1]-b
 # print n1,n2,n3
 
 c_array=np.asarray(c)
@@ -202,44 +160,12 @@ s_array=np.asarray(s)
 
 print "No of pixels getting changed actually",count21,count
 
-# /********************************************************************************************************/
-
-#                         CHECKING NO OF ZERO IN STEGO IMAGE
-
-# /*********************************************************************************************************/
-# print "\n",o
-zero=0
-zero2=0
-different=0
-for i in range(k*im.height-1):
-    for j in range(k*im.width-1):
-        if(c[i][j]<=1):
-            zero=zero+1
-        if(s[i][j]<=1):
-            zero2=zero2+1
-        if(c[i][j]!=s[i][j]):
-            # print i,j,c[i][j],s[i][j]
-            different=different+1
-        # print c[i][j],
-        # print s_array[i,j],
-        # print oriimage[i][j],
-    # print "\n"
-# print i,j
 # /*******************************************************************************************************************
     
 #                                                 TESTING OPERATION
 
 # /*******************************************************************************************************************
-print "No of zeo in cover image",zero
 print "len of string",l,"type of l",type(steg)
-print "No of zero in stego image",zero2
-print "value of count",count
-print "different no of pixels in cover and stego", different
-if(count>=l):
-    print "stego image successfully generated"
-else:
-    print "Unsuccessful stego"
-
 
 # /********************************************************************************************************
 
@@ -250,58 +176,8 @@ else:
 cv2.imwrite("stego_image.bmp",s_array);
 cv2.imwrite("cover_image.bmp",c_array);
 
-# import scipy.misc
-# scipy.misc.imsave("cover_image.bmp",c)
-# scipy.misc.imsave("stego_image.bmp",s)
 
 
-# cover=cv.LoadImage("cover_image.bmp",0)
-# count=0
-# zero=0
-# for i in range(cover.height):
-#   for j in range(cover.width):
-#     if(cover[i,j]!=c[i][j]):
-#       count=count+1
-#     if(cover[i,j]==0):
-#         zero=zero+1
-#         print i,j
-# print "Actual Count and zero",count,zero
-
-# ime = Image.fromarray(c_array)
-# if ime.mode != 'RGB':
-#     ime = ime.convert('RGB')
-# ime.save("your_file.bmp")
-
-
-# s=cv.LoadImage("your_stego.bmp",0)
-# c=cv.LoadImage("your_file.bmp",0)
-# count=0
-# for i in range(c.height):
-#   for j in range(c.width):
-#     if(s_array[i,j]!=c[i,j]):
-#       count=count+1
-# print "count", count
-
-
-# imgs = Image.fromarray(s_array)
-# if imgs.mode != 'RGB':
-#     imgs = ime.convert('RGB')
-# imgs.save("your_stego.bmp")
-
-# s=cv.LoadImage("your_stego.bmp",0)
-# c=cv.LoadImage("your_file.bmp",0)
-# count=0
-# for i in range(s.height):
-#   for j in range(s.width):
-#     if(s[i,j]!=c[i,j]):
-#       count=count+1
-# print count
-print c[508][480],c[509][481],c[510][484]
-print 'succ'
-# cv2.imshow("original image",oriimage)
-# cv2.imshow("resize image",newimage)
-# cv2.imshow("hello","your_stego.bmp")
-print 'error'
-print steg
+print "Message Successfully hiden"
 print frombits(steg)
 cv2.waitKey(40000)
