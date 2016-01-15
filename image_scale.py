@@ -156,9 +156,9 @@ def main(arg1,arg2):
         flag=0
         if count >l:
             break
-        if(count<l):
+        if(d1>=2):
            n1=int(math.floor(math.log(d1,2)))
-           if(n1!=0):
+           if(n1!=0 and count <l):
                 pixel_modify_count=pixel_modify_count+1
                 start=count
                 count= count+n1 
@@ -175,7 +175,7 @@ def main(arg1,arg2):
                 # print "b",b,c[i][j+1],s[i+1][j+1]
                 s[i][j+1]=s[i][j+1]-b
              
-        if(count<l):
+        if(d2>=2):
             n2=int(math.floor(math.log(d2,2)))
             if(count<l and n2!=0):
                 pixel_modify_count=pixel_modify_count+1
@@ -193,7 +193,7 @@ def main(arg1,arg2):
                 # print "b",b,c[i+1][j],s[i+1][j]
                 s[i+1][j]=s[i+1][j]-b
         # print "d1",d1
-        if(count<l):
+        if(d3>=2):
             n3=int(math.floor(math.log(d3,2)))
             if(count<l and n3!=0):
                 start=count
