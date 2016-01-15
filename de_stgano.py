@@ -160,23 +160,21 @@ for i in range(0,(height),2):
         
         
         if(d1>=2):
-            p=n1=int(math.floor(math.log(d1,2)))
+            p=int(math.floor(math.log(d1,2)))
             b=int(round(round(c[i][j+1])-si[i][j+1]))
             # p=n1 if(count>n1) else count
             # print "b",b
 
-            if(n1 >=1 and p > 0):
+            if(p > 0):
 
-                print "n1",n1
+                print "n1",p
                 padder=[]
 
                 print "b",b,c[i][j+1],si[i][j+1]
                 if(counter+p)>=7:
                     d=7-counter
-                    padder=padding(d2b(b),n1)
+                    padder=padding(d2b(b),p)
                     # read starting d bits store it in temp
-                    # c=0
-                    # while c < d:
                     temp.extend(padder[:d])
                     counter=counter+d
                     # Now temp is 7 bit
@@ -193,13 +191,13 @@ for i in range(0,(height),2):
                     # the reaming bit (p-d) save it in temp
                     temp=[]
                     temp.extend(padder[d:])
-                    counter=counter+n1-d
+                    counter=counter+p-d
 
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+n1
+                    counter=counter+p
                     temp.extend(padding(d2b(b),p))
 
 
@@ -210,13 +208,13 @@ for i in range(0,(height),2):
 
               
         if(d2>=2):
-            p=n2=int(math.floor(math.log(d2,2)))
+            p=int(math.floor(math.log(d2,2)))
             b=int(round(round(c[i+1][j])-si[i+1][j]))
             # p=n2 if(count>n2) else count
             # print "b",b
             # padder=[]
-            if(n2 >=1 and p > 0):
-                print "d2",d2,"n2",n2
+            if(p > 0):
+                print "d2",d2,"n2",p
 
                 print "b",b,c[i+1][j],si[i+1][j]
 
@@ -226,9 +224,9 @@ for i in range(0,(height),2):
                 padder=[]
                 count=count - p
                 zero=zero+p
-                if(counter+n2)>=7:
+                if(counter+p)>=7:
                     d=7-counter
-                    padder=padding(d2b(b),n2)
+                    padder=padding(d2b(b),p)
                     # read starting d bits store it in temp
                     # c=0
                     # while c < d:
@@ -249,24 +247,24 @@ for i in range(0,(height),2):
                     # the reaming bit (p-d) save it in temp
                     temp=[]
                     temp.extend(padder[d:])
-                    counter=counter+n2-d
+                    counter=counter+p-d
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+n2
+                    counter=counter+p
                     temp.extend(padding(d2b(b),p))
 
                 inf.extend(padding(d2b(b),p))
 
                
         if(d3>=2):
-            p=n3=int(math.floor(math.log(d3,2)))
+            p=int(math.floor(math.log(d3,2)))
             b=int(round(round(c[i+1][j+1])-si[i+1][j+1]))
             # p=n3 if(count>n3) else count
             # print "b"
-            if(n3 >=1 and p > 0):
-                print "n3",n3
+            if(p > 0):
+                print "n3",p
 
                 # print p
                 padder=[]
@@ -299,14 +297,14 @@ for i in range(0,(height),2):
                     #     break
                     # the reaming bit (p-d) save it in temp
                     temp=[]
-                    counter=counter+n3-d
+                    counter=counter+p-d
                     temp.extend(padder[d:])
                     print "padder",padder,temp
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
-                    counter=counter+n3
+                    counter=counter+p
                     print "no"
                     temp.extend(padding(d2b(b),p))
 

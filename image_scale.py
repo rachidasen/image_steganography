@@ -68,7 +68,7 @@ b=0
 
 # /********************************************************************************************************/
 counter=0
-count21=0
+pixel_modify_count=0
 count=0
 for i in range(0,(k*im.height-2),2):
     for j in range(0,(k*im.width-2),2):
@@ -114,10 +114,12 @@ for i in range(0,(k*im.height-2),2):
 
     #/***********************************************************************************************/
         flag=0
+        if count >l:
+            break
         if(count<l):
     	   n1=int(math.floor(math.log(d1,2)))
            if(n1!=0):
-                count21=count21+1
+                pixel_modify_count=pixel_modify_count+1
                 start=count
                 count= count+n1 
                 # print "n1",count-start
@@ -136,7 +138,7 @@ for i in range(0,(k*im.height-2),2):
         if(count<l):
             n2=int(math.floor(math.log(d2,2)))
             if(count<l and n2!=0):
-                count21=count21+1
+                pixel_modify_count=pixel_modify_count+1
                 start=count
                 count= count+n2 
                 # print "d2",d2,"n2",count-start
@@ -156,7 +158,7 @@ for i in range(0,(k*im.height-2),2):
             if(count<l and n3!=0):
                 start=count
                 count=count+n3 
-                count21=count21+1
+                pixel_modify_count=pixel_modify_count+1
                 # print "n3",count-start
                 b=bina=0
                 if count > l:
@@ -167,6 +169,7 @@ for i in range(0,(k*im.height-2),2):
                     bina=bina+1
                 # print "b",b,c[i+1][j+1],s[i+1][j+1]
                 s[i+1][j+1]=s[i+1][j+1]-b
+
 # print n1,n2,n3
 
 c_array=np.asarray(c)
@@ -174,7 +177,7 @@ s_array=np.asarray(s)
 
 
 
-print "No of pixels getting changed actually",count21,count
+print "No of pixels getting changed actually",pixel_modify_count,count
 
 # /*******************************************************************************************************************
     

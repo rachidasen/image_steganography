@@ -39,7 +39,9 @@ while(1):
 	y=int(y*pow(10,40))
 	# print y
 	y=y%(size)
-	print array[y]
+	i=array[y][0]
+	j=array[y][1]
+	print i,j
 	#perform operation in yth index i and j
 
 	array[y]
@@ -64,6 +66,12 @@ while(1):
 	# print y
 	y=y%(size)
 	print array[y]
+
+
+
+
+
+	
 	#perform operation in yth index i and j
 	i=array[y][0]
 	j=array[y][1]
