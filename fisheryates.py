@@ -15,12 +15,12 @@ print size
 array=[]
 for i in range(0,n,2):
   for j in range(0,m,2):
-  	c=[]
-  	c.append(i)
-  	c.append(j)
+  	collect=[]
+  	collect.append(i)
+  	collect.append(j)
   	# print type(c)
   	# print (c)
-  	array.append((c))
+  	array.append((collect))
 	
 #
 
@@ -44,7 +44,10 @@ while(1):
 	print i,j
 	#perform operation in yth index i and j
 
-	array[y]
+
+
+
+	
 	
 	size-=1
 	array[y],array[size]=array[size],array[y]
@@ -71,7 +74,7 @@ while(1):
 
 
 
-	
+
 	#perform operation in yth index i and j
 	i=array[y][0]
 	j=array[y][1]
