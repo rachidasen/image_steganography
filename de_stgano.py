@@ -47,19 +47,26 @@ import Image
 import math
 import sys
 
-def main(argv):
-    name_count=argv
+def main(arg1,arg2):
+    name_count=arg2
+    import os 
+    dirname=os.path.dirname
+    print dirname
+    stego_name="stego"+name_count+"kb"+arg1
+    cover_name="cover_image"+arg1+"kb.bmp"
+    # cv2.imwrite(os.path.join("stego_images",stego_name),s_array);
     # print name_count
     # print type(name_count)
     # name_count=str(name_count)
-    s=cv.LoadImage("stego_image"+name_count+".bmp",0)
+    s=cv.LoadImage(os.path.join("stego_images",stego_name),0)
 
     # s=np.asarray(infoimage[:,:])
     print s.width, s.height
     c = [[0]*s.width for i in range(s.height)]
     i=j=0
     # l=80
-    cover=cv.LoadImage("cover_image"+name_count+".bmp",0)
+    
+    cover=cv.LoadImage(os.path.join("cover_images",cover_name),0)
     zero=count=0
     zero2=0
     for i in range(s.height):
@@ -141,7 +148,7 @@ def main(argv):
     counter=0
     # count=l
     inf=[]
-    si=cv2.imread("stego_image"+name_count+".bmp",0)
+    si=cv2.imread(os.path.join("stego_images",stego_name),0)
 
 
     n=height
@@ -379,4 +386,4 @@ def main(argv):
     # print msge
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1],sys.argv[2])
