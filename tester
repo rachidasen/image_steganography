@@ -1,0 +1,464 @@
+The recent advances in technology coupled with a demand for cost efficient computing
+have led to an enormous growth of cloud computing usage in modern day businesses.
+Users want to optimize their resource usage of the CPU, network, and the memory
+and pay for only what they use. Virtualization, faster/larger computing power, and
+high speed network backbones have led to an explosion in the deployment of cloud
+infrastructure across the world. Along with the underlying infrastructure, many
+platforms have evolved to support the ability to develop real apps for the cloud
+environment virtually from anywhere. Additionally, new cloud-based software
+apps have proliferated so fast that they have replaced the notion of installed software
+for good.
+Today, no developer is untouched by the cloud. In their day to day lives, developers
+use one or the other form of a cloud service—whether it is an Amazon-hosted virtual
+machine to do testing or a cloud-based development environment to write code for
+their business apps. Cloud is everywhere.
+In this book, we will undertake the journey to explore a very significant and specific
+aspect of cloud computing, that is, how to develop web apps on the cloud. We will
+use the Heroku platform to build robust and scalable web apps and in the process
+understand different aspects of the Heroku platform.
+All aboard? Let us begin the journey. In this chapter, we will:
+•	 Define cloud computing and understand its various components
+•	 Understand what cloud application development is and what its advantages are
+•	 Introduce you to Heroku and trace its history
+•	 Review high level Heroku architecture
+•	 Get acquainted with Heroku's features
+•	 Learn how to install Heroku
+•	 Test drive HerokuHello Heroku
+What is cloud computing?
+Simply put, cloud computing is a form of computing in which the user accesses
+any computing resource remotely through a simple client, which in most cases is a
+web browser. This resource could be a software application or an operating system
+or remotely located hardware. Cloud computing is a manifestation of the desire to
+optimize the use of shared computing resources by creating an infrastructure that
+lets you use the computing power, storage, and network optimally and pay for only
+what you use.
+Collaborate
+Storage
+E-Mail
+News
+Documents
+Write Code
+Games
+Timesheet
+Finance
+Data stores
+Cloud service models
+The services offered by cloud computing are further divided into different service
+models—infrastructure as a service (IaaS), platform as a service (PaaS), and
+software as a service (SaaS). This classification is done to segregate the different
+types of services a user can purchase to meet their business needs in a cloud
+computing environment.
+[ 8 ]Chapter 1
+IaaS is the cloud service model that enables the user provision virtualized hardware
+resources on demand. Physically, these resources could be spread across multiple
+data centers, which the service provider maintains. These resources include the
+virtual storage, network connections, and load balancers for the provisioned
+hardware resource. The user can use the resource on demand and pay per use. If
+the user needs more resources, the provider has the ability to automatically scale
+up the hardware according to the need and vice versa. A good example of an IaaS
+provider is the Amazon Web Services (AWS— http://aws.amazon.com ). It is the
+most popular IaaS provider in the cloud. Rackspace ( http://www.rackspace.com )
+is another such example.
+PaaS is the cloud service model that provides the tools to build software applications
+on the cloud. A close analogy would be to look at PaaS as an operating system
+and middleware of the cloud environment. PaaS provides developers with the
+underlying platform to use to develop their apps. It takes care to support a specific
+language or technology that the stack developers want to use. Many PaaS providers
+also enable on-demand scaling of the underlying computer and storage resources,
+automatically, to free the cloud user from the job of allocating resources manually.
+In PaaS, the consumer of the service controls deployment and configuration. The
+PaaS provider provisions the servers, network, and the computational needs of the
+software application. The PaaS model also enables a multitenant architecture so
+that multiple users could use the web application in a secure, scalable, concurrent,
+and fail-safe manner. Sophisticated PaaS solutions also provide an integrated web
+application development environment, which facilitates collaborative coding, source
+control, and deployment. Heroku ( http://www.heroku.com ) and Google App
+Engine ( http://cloud.google.com/AppEngine ) are two examples of successful
+PaaS platforms.
+The SaaS model of the cloud provides software you can consume from
+the purview of your web browser. There is no need for complex and time
+consuming installations. Open a browser, point to a URL, and use the app pointed
+to by the URL. What happens behind the scenes is all hidden from the user. SaaS has
+evolved considerably in the last decade. Many SaaS providers have made desktop or
+locally-hosted software obsolete. All you need is a browser and you are all set to use
+any app to do anything. No headaches of software upgrades, version incompatibility,
+or software portability. Google's Gmail ( http://gmail.com ) service is one of the
+most successful and widely known SaaS implementations. The SaaS component has
+grown exponentially with companies leveraging the underlying infrastructure and
+platform to build cloud versions of most of their software product offerings. By 2013,
+almost every company worth its salt has had a SaaS version of its popular software
+apps available to online customers.
+[ 9 ]Hello Heroku
+While PaaS is inherently more stable compared to the SaaS component, PaaS has
+evolved tremendously in the last few years and provided the developer community
+with amazing tools to work with and deploy distributed apps in virtually no time.
+The Heroku PaaS is the subject of this book.
+Infrastructure as a
+Service (aaS) Platform as a
+Service (PaaS)
+App and data
+Runtime
+Middleware
+Operating System App and data
+Servers
+Storage
+Networking
+Visualization Operating System
+Runtime
+Middleware
+Servers
+Storage
+Networking
+Virtualization
+Software as a
+Service (PaaS)
+App and data
+Runtime
+Middleware
+Operating System
+Servers
+Storage
+Networking
+Virtualization
+Legend
+What you manage
+What the vendor
+takes care of
+What is cloud application development?
+One way of describing cloud application development is the ability to create, build,
+and deploy your software applications from the web browser. You don't need to
+install anything on your local machine. All you need is a web browser, Internet
+connection, and the ability to code. The Cloud9 IDE platform is one such example of
+a web browser-based cloud application development environment. The Cloud9 IDE
+development platform lets developers write, build, test, and instantly deploy their
+web apps from the browser. Once deployed, the developer can access the web app
+using a web URL.
+There is another approach albeit a hybrid one to do cloud application development.
+In this approach, developers write code on their own machine, use locally installed
+development tools, build their code locally first, and once tested, they deploy those
+web apps to the platform service on the cloud. The platform as a service on the cloud
+builds the code again using a supported build tool and deploys the web app to the
+relevant server. Later, it returns a web URL to the developer to access the web app.
+[ 10 ]Chapter 1
+Key advantages of cloud application
+development
+Developing web apps using the cloud application development model is a boon for
+all developers. It is the magic wand that developers couldn't have imagined before
+the advent of cloud computing and cloud-based development platforms. There are
+several advantages of using cloud application development:
+•	 One of the key advantages of cloud application development is the no
+software installation required on local machine paradigm. An Internet connection,
+a web browser, and the ability to code are all you need to write web apps.
+As a developer, you can focus on building your web app functionality in the
+best way possible without worrying about the code editors, debuggers, or
+build/deploy tools to use. All these things are not your business anymore.
+You can just write your code and the rest gets taken care of for you. Even
+in the hybrid approach, several cloud application development enabling
+platforms provide you with compatible tools (compatible with tools in the
+cloud environment) that you can use to build, test, and deploy your apps.
+•	 Another practical advantage of using cloud application development is
+the fact that you don't need to manage the software, storage, or hardware
+infrastructure being used. Supporting software (operating systems,
+development tools, and so on) gets automatically upgraded and new
+hardware gets provisioned transparently for you; you don't need to worry
+about compiler versions or third-party libraries you use.
+•	 Cloud application development also means reduced the cost of building and
+maintaining your web apps. You pay as you go and get billed for only what
+you use. Developers can optimize their investment by using the right toolset
+and leveraging the available open source tools to build robust, scalable, and
+well performing web apps.
+•	 Mobility is a reason, which by itself gives tremendous advantage to
+developers who want to build apps on the go. When you can develop,
+change, or deploy web apps from the web browser of your mobile device,
+it is a powerful notion. You could be sipping coffee in a local coffee shop,
+responding to a customer request through your mobile device, bringing
+your servers up/down, adding a new developer to your app, or increasing
+the memory required for your web app. The possibilities are unlimited.
+[ 11 ]Hello Heroku
+Introducing Heroku
+Heroku ( http://www.heroku.com ), pronounced her-oh-koo, is one of the leading
+PaaS providers in the cloud software business, proving itself to be the leading PaaS
+solution for small and big enterprises alike. With consistent improvement and the
+philosophy of "convenience" over "configuration", Heroku has become the leading
+cloud app development platform for developers, having been used by over 40,000
+websites till date. The Heroku philosophy is to let developers focus solely on writing
+web applications and forget about servers. Heroku magically takes care of building,
+deploying, running, and scaling the application for the developer on demand.
+Heroku is a polyglot cloud application platform that provides tremendous flexibility
+in choosing an appropriate programming language to develop web apps. Heroku
+provides platform support for Ruby, Ruby on Rails, Java, Node.js, Clojure, Scala,
+Python, and PHP as of early 2013.
+Heroku's add-on architecture allows the developers to customize the use of various
+third-party packages based on the need. You have the flexibility to choose a basic
+or a premium plan based on the requirement of your website. The developer can
+supercharge the apps with add-on resources, such as Memcached for caching data
+or a NoSQL database and create really powerful, feature-rich web apps.
+[ 12 ]Chapter 1
+Heroku provides a lot of flexibility in managing your app once you have deployed it.
+With Heroku, a developer can manage the app using the Heroku command-line tool
+running on the client machine or the dashboard running on the Heroku infrastructure.
+Heroku is highly scalable. It scales transparently as your traffic spikes and it can
+serve applications with over 10 3 sustained requests per second today.
+Heroku Git's focused workflow makes it easy to share code, collaborate with other
+developers, and deploy code frequently, thereby cutting down on the time it takes
+the app to reach its users.
+Walking down the memory lane
+It is very important to understand the history of something to understand how it
+evolved to its current state. Over the years, the designers of Heroku have made
+several choices to make Heroku what we see it as today. Heroku has undergone
+many iterations of evolution. It all started when a few web engineers got together
+and built a platform as a service that looked very similar to the Unix platform.
+Developers could build their apps on Ruby and push them to the platform for
+hosting. All the value added services such as monitoring, logging, or databases
+were pluggable and easy to use. It was a web developer's dream come true.
+The following is a short summary of Heroku's history that walks you through
+Heroku's evolution over the last several years:
+•	 Heroku was launched in 2007 by James Lindenbaum, Adam Wiggins, and
+Orion Henry.
+•	 Heroku was a Y-combinator start up and its base increased to over 2,000 apps
+and users in just the first six months.
+•	 Heroku started with addressing two common issues for web developers:
+deployment of applications and developer productivity.
+•	 By the end of 2007, Heroku came up with interesting features such as
+"instantly live" (deployment), "create and edit online" (online source code
+editing), and "share and collaborate" (code sharing).
+•	 Sometime later in 2008, Heroku was projected as a Rails-based web
+development framework and lot more focus was put on deployment and
+scaling of web applications.
+•	 Collaborative code sharing and development through Git paved way for
+increased interest in Heroku by the developer community. Soon a unified
+API was part of the Heroku offering.
+[ 13 ]Hello Heroku
+•	 During 2009, Heroku came up with Herokugarden—an application bed
+where the developer could create, deploy, and manage web applications. The
+API (Heroku commands) to manage web applications was part of this suite.
+This feature was phased out soon though.
+•	 Heroku also added the concept of "add-ons"—pieces of software (libraries)
+you could magically add to your web application and use almost on the
+fly. By the end of 2009, Heroku had almost 20,000 apps running on various
+platforms including mobiles.
+•	 Heroku was acquired by Salesforce in December 2010.
+•	 In the last few years, among others Heroku has done several important
+changes to the platform, including bringing in the new Celadon Cedar stack
+and supporting Java, Clojure, Python, Node.js, and Scala languages. It has
+also added an advanced support for the Postgres database.
+An overview of Heroku's architecture
+The Heroku architecture consists of a platform stack comprising of the language
+runtime, various libraries, the operating system, and the underlying infrastructure
+to support development of scalable web apps.
+The high-level architecture of the Heroku platform is shown as follows:
+HTTP router
+ROUTING
+Dyno1
+Dyno2
+Dyno3
+Dyno Manifold
+Control
+Surface API
+Logplex logging infrastructure
+Enterprise
+data
+Queuing
+Database
+[ 14 ]
+Add-ons
+MonitorChapter 1
+Process management
+The dyno manifold (DM) is the foundational block for the execution environment
+on the Heroku platform. It is a distributed, fault-tolerant, and horizontally scalable
+execution environment for application dynos. It manages the entire diversity
+of process type instances via the process model in an automated way with zero
+maintenance cost.
+The unit of work in the Heroku platform is called a dyno. Dynos are fully-isolated,
+highly available (virtual) containers running on the dyno manifold.
+Dynos receive web requests from routing mesh, connect to application resources
+such as a database, for example, using environment variables, and write an output
+to the log message sink called Heroku Logplex.
+A process type defines the template to be used to instantiate a particular process. It is
+a declaration of a command. The command is executed when a dyno of that process
+type is started. There are at least two process types available on Heroku—web and
+worker. An instance of web process type typically handles HTTP client requests. The
+router directs all the requests to the web process type. The instance of the worker
+process type is used to execute other tasks such as custom jobs of long running
+background jobs and queuing tasks. Heroku also provides the flexibility to create
+additional process type based on specific needs.
+A process is an instance of a particular process type. The Procfile specifies the
+various process types and how to run them on the Heroku platform.
+Logging
+Logplex routes log streams originating from various sources, such as application
+tasks, system components, and backend services into a single output pool.
+Additional filters can be used to search specific log messages, hence providing
+flexible logging facilities.
+HTTP routing
+The requests (dashed vertical lines) for a web resource (for example, web page)
+are routed to the appropriate web process dyno using the Routing mesh. Incoming
+requests are received by a load balancer that automatically routes HTTP requests to
+specific dynos through this mesh. The Routing mesh is responsible for determining
+the location of the application's web dynos within the dyno manifold and forwarding
+the HTTP request to one of these dynos.
+[ 15 ]Hello Heroku
+Heroku interfaces
+Heroku provides various control surfaces such as process management, routing,
+logging, scaling, configuration, and deployment for building and operating an
+application. These are available as a command-line interface (CLI), a web-based
+console, as well as a full REST API. These control surfaces provide the application
+developer with the flexibility to control various aspects of the application through
+multiple touch points.
+The Heroku feature set
+Heroku is a fully featured PaaS that provides a complete stack of "true" PaaS
+features. The following are some of the core features available in Heroku:
+•	 Heroku runtime features:
+° ° It enables flexible process control; scalable web and worker (type)
+processes (called dynos) run from a Procfile.
+° ° It allows a new process type to be defined such as web or worker type.
+° ° Process isolation—anything you store on your web process will be
+isolated from all other web processes.
+° ° Heroku even lets you run processes during the maintenance mode
+while serving the application users static page(s).
+° ° It provides fully functional multiple language support.
+•	 Configuration:
+° ° Heroku does not use property files or hardcoded configuration
+variables to read system or application-specific global parameters;
+instead, it uses configuration variables or environment variables.
+° ° Heroku prefers convenience over configuration, hence the
+configuration architecture is intentionally simplistic to use.
+•	 Effective releases:
+° ° Whenever new code, add-ons, or a configuration is in place, Heroku
+creates a new release automatically.
+° ° Heroku provides a rich set of capabilities to manage app releases
+from creating a release and listing available releases to rolling back to
+previous releases.
+[ 16 ]Chapter 1
+•	 Logging:
+° ° Heroku's Logplex facility provides you with an aggregated view of
+your application runtime behavior.
+° ° Heroku also has provisions to filter log records based on a certain
+source, process, or both.
+•	 Security:
+° ° Heroku provides the ability to set up an SSL endpoint for
+your application to enable secure communication to your
+deployed application.
+° ° Heroku also supports SSH keys to enable a secure transfer of
+developer code to/from the platform.
+•	 Real-time status:
+° °
+Through a web URL, Heroku provides its users with an ability to
+verify the running status of the application(s) on a time-range basis.
+You can go back in time to check for failures and steps undertaken
+for their resolution.
+•	 Git-based deployment:
+° ° Heroku uses Git as the primary method to deploy apps. Git is a
+popular open source code revision control system that enables shared
+access to a managed source code environment.
+° ° While managing apps for the Heroku platform using Git, a developer
+can do the following:
+° ° Build and track the app
+° ° Create remote repositories of code
+° ° Deploy the application in multiple environments
+(development, staging)
+° ° Use other version control systems side by side and Git only
+for deployment
+•	 Polyglot platform:
+° °
+Though Heroku started off being a Ruby-only web application
+platform, it has evolved over the years and started supporting many
+other popular programming languages including Java, Node.js, Scala,
+Clojure, Python, and the Play framework including the latest releases.
+[ 17 ]Hello Heroku
+•	 Buildpacks:
+° °
+Heroku's support for a language is enabled by creating a buildpack
+for that language. A buildpack is a set of scripts required to identify
+the source code language and provide instructions to build it into
+executable code. For example, the Ruby ( https://github.com/
+heroku/heroku-buildpack-ruby ) buildpack is one of the most
+commonly used buildpacks on Heroku.
+•	 Add-ons:
+° ° Heroku offers a growing number of add-ons via its add-on provider
+program. Additional services, such as error tracking, reporting, e-mail
+services, hosted NoSQL databases, and full-text search among others
+are available instantly via a few clicks or commands on the Heroku
+CLI prompt.
+° ° There is a provision to add and remove add-ons using the
+Heroku API.
+•	 The Heroku command-line tool (CLI):
+° ° The Heroku command-line tool is an interface to the Heroku web
+API. The tools provide an easy to use command-line interface to do
+things such as creating/renaming apps, running one-off processes,
+taking backups, and configuring add-ons.
+° ° This tool is usually installed with the toolbelt program. It also has a
+plugin architecture that allows developers to extend the functionality
+of the command as needed.
+° ° It is purposely kept similar to UNIX shell commands to reduce the
+learning curve for system administrators or users of the Heroku API.
+•	 A fully featured Platform API
+° °
+The Heroku Platform API is a standard list of functions that allow
+you to programmatically call the Heroku backend and perform
+various operations such as creating an app or deleting it. It helps
+the developer gain complete control of the app.
+•	 Managed, multitenant architecture:
+° °
+Heroku's platform architecture provides a managed process
+execution environment and a high degree of isolation between
+running apps, all of which are transparent to the application client.
+[ 18 ]Chapter 1
+Let's play Heroku
+Now that we have a basic understanding of what Heroku is and what it has to offer
+for developers planning to build and deploy cloud-based apps, let us take Heroku
+for a quick test drive. You are going to love it.
+Getting ready for the ride – the prerequisites
+There are a few prerequisites before you start using Heroku. You need to perform
+the following steps:
+1.	 Get a Heroku account ( https://www.heroku.com ).
+2.	 Install Heroku toolbelt client ( https://toolbelt.heroku.com/) .
+3.	 Set up SSH for your user account.
+An SSH key is an encrypted token that your machine and your Heroku
+account share to validate the authenticity of the user invoking a command
+on the Heroku platform.
+In the next part, we will learn the actions required to set up a Heroku client on your
+local machine.
+Signing up
+To start using Heroku, you will need to sign up for a Heroku account. The following
+screenshot shows the sign up page to create a new Heroku account:
+[ 19 ]Hello Heroku
+Once you have entered an e-mail address, you need to validate your credentials by
+logging in to your e-mail account and verifying your account credentials for Heroku.
+Consider the following screenshot:
+Once you validate your account credentials, you will be redirected to the Heroku
+password-setting page, where you need to enter a valid password and confirm it,
+as shown in the following screenshot:
+After successful password confirmation, you will be redirected to the Heroku
+dashboard. Since you are a new user, it will not contain any deployed applications
+yet. Consider the following screenshot:
+[ 20 ]Chapter 1
+Installing the Heroku toolbelt
+The Heroku toolbelt is the client software required to work with the Heroku
+platform. It can be downloaded from https://toolbelt.heroku.com/ for
+Windows, Debian/Ubuntu, Mac OS X, and standalone platforms. For our
+example, we will use the Windows version as shown in the following screenshot:
+[ 21 ]Hello Heroku
+Install the Heroku toolbelt by double-clicking on the downloaded executable and
+following the instructions.
+The Heroku toolbelt contains the following components:
+•	 Heroku client: This is the command-line tool to help create and manage apps.
+•	 Foreman: This is a utility to give you the flexibility of running applications
+locally, especially sometimes when you want to troubleshoot.
+•	 Git: This is the revision control system and relevant utility program
+that helps you push your code to Heroku or download it from remote
+repositories. You can also download a client specific Git UI to your operating
+system if you want a user interface to issue Git commands.
+Logging in and generating a new SSH key
+After installing the toolbelt, you can issue Heroku commands from the Heroku
+client command prompt. These commands (or code) are sent to the Heroku server
+and executed on the Heroku platform. However, Heroku needs to verify that the
+commands and code being sent to it are from an authentic user. Hence, you need to
+create a public/private key pair to push the code to Heroku.
+Follow these steps to create the key and upload it to your Heroku account:
+1.	 Generate the key on the local machine using the ssh-keygen tool (available at
+http://www.openssh.com/ ).
+2.	 Add this key to the related Heroku account using the keys:add
+Heroku command.
+° °
+In order to add the key manually, consider the following figure:#
+
