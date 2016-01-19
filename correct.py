@@ -176,6 +176,10 @@ def main(arg1,arg2,arg3):
                     b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
                 # print "b",b,c[i][j+1],s[i+1][j+1]
+                if(b>=s[i][j+1]):
+                    b=0
+                    count=count-n1
+
                 s[i][j+1]=s[i][j+1]-b
              
         if(d2>=2):
@@ -194,6 +198,9 @@ def main(arg1,arg2,arg3):
                     b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
                 # print "b",b,c[i+1][j],s[i+1][j]
+                if(b>=s[i+1][j]):
+                    b=0
+                    count=count-n2
                 s[i+1][j]=s[i+1][j]-b
         # print "d1",d1
         if(d3>=2):
@@ -211,6 +218,10 @@ def main(arg1,arg2,arg3):
                     b=pow(2,bina)*steg[kokab]+b
                     bina=bina+1
                 # print "b",b,c[i+1][j+1],s[i+1][j+1]
+                if(b>=s[i+1][j+1]):
+                    b=0
+                    count=count-n3
+                    
                 s[i+1][j+1]=s[i+1][j+1]-b
 
 
