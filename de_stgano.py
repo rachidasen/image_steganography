@@ -2,7 +2,7 @@ def tobits(s):
     result = []
     for c in s:
         bits = bin(ord(c))[2:]
-        bits = '0000000'[len(bits):] + bits
+        bits = '00000000'[len(bits):] + bits
         result.extend([int(b) for b in bits])
     return result
 
@@ -33,8 +33,8 @@ def d2b(dec):
 
 def frombits(bits):
     chars = []
-    for b in range(len(bits) / 7):
-        byte = bits[b*7:(b+1)*7]
+    for b in range(len(bits) / 8):
+        byte = bits[b*8:(b+1)*8]
         chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
     return ''.join(chars)
 
@@ -75,7 +75,7 @@ def main(arg1,arg2):
           count=count+1
         if(s[i,j]==0):
             zero=zero+1
-            print i,j
+            # print i,j
         if(cover[i,j]==0):
             zero2=zero2+1
 
@@ -212,23 +212,23 @@ def main(arg1,arg2):
 
             if(p > 0):
 
-                print "n1",p
+                # print "n1",p
                 padder=[]
 
-                print "b",b,c[i][j+1],si[i][j+1]
-                if(counter+p)>=7:
-                    d=7-counter
+                # print "b",b,c[i][j+1],si[i][j+1]
+                if(counter+p)>=8:
+                    d=8-counter
                     padder=padding(d2b(b),p)
                     # read starting d bits store it in temp
                     temp.extend(padder[:d])
                     counter=counter+d
-                    # Now temp is 7 bit
-                    print "lenght",len(temp),d,counter
+                    # Now temp is 8 bit
+                    # print "lenght",len(temp),d,counter
 
                     counter=0
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
-                        print "success"
+                        # print "success"
                         flag=1
                         break
                     # if b==0:
@@ -256,9 +256,9 @@ def main(arg1,arg2):
             # print "b",b
             # padder=[]
             if(p > 0):
-                print "d2",d2,"n2",p
+                # print "d2",d2,"n2",p
 
-                print "b",b,c[i+1][j],si[i+1][j]
+                # print "b",b,c[i+1][j],si[i+1][j]
 
                 # print n2
 
@@ -266,22 +266,22 @@ def main(arg1,arg2):
                 padder=[]
                 count=count - p
                 zero=zero+p
-                if(counter+p)>=7:
-                    d=7-counter
+                if(counter+p)>=8:
+                    d=8-counter
                     padder=padding(d2b(b),p)
                     # read starting d bits store it in temp
                     # c=0
                     # while c < d:
                     temp.extend(padder[:d])
                     counter=counter+d
-                    # Now temp is 7 bit
-                    print "padder",padder
-                    print "lengths",len(temp),d,counter,temp,frombits(map(int,temp))
+                    # Now temp is 8 bit
+                    # print "padder",padder
+                    # print "lengths",len(temp),d,counter,temp,frombits(map(int,temp))
 
                     counter=0
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
-                        print "success"
+                        # print "success"
                         flag=1
                         break
                     # if b==0:
@@ -306,18 +306,18 @@ def main(arg1,arg2):
             # p=n3 if(count>n3) else count
             # print "b"
             if(p > 0):
-                print "n3",p
+                # print "n3",p
 
                 # print p
                 padder=[]
-                print "b",b,c[i+1][j+1],si[i+1][j+1]
+                # print "b",b,c[i+1][j+1],si[i+1][j+1]
                 # p=n3 if(count>n3) else count
 
                 # print "b",d2b(b)
                 
                 zero=zero+p
-                if(counter+p)>=7:
-                    d=7-counter
+                if(counter+p)>=8:
+                    d=8-counter
                     padder=padding(d2b(b),p)
                     # read starting d bits store it in temp
                     # c=0
@@ -326,13 +326,13 @@ def main(arg1,arg2):
                     temp.extend(padder[:d])
                 
                     # Now temp is 7 bit
-                    print "length",len(temp),d,counter
-                    print "p-d d",p-d,d,
+                    # print "length",len(temp),d,counter
+                    # print "p-d d",p-d,d,
 
                     counter=0
                     # zzz="#"
                     if frombits(map(int,temp))=="#":
-                        print "succss"
+                        # print "succss"
                         flag=1
                         break
                     # if b==0:
@@ -341,13 +341,13 @@ def main(arg1,arg2):
                     temp=[]
                     counter=counter+p-d
                     temp.extend(padder[d:])
-                    print "padder",padder,temp
+                    # print "padder",padder,temp
                     # print "temp",temp
                     # saved the remaining p-d from padder to 
 
                 else:
                     counter=counter+p
-                    print "no"
+                    # print "no"
                     temp.extend(padding(d2b(b),p))
 
                 inf.extend(padding(d2b(b),p))
@@ -368,15 +368,15 @@ def main(arg1,arg2):
 
 
 
-    print "count", count
+    # print "count", count
     # print inf
     # inf.append(1)
-    inf=map(int,inf)
-    print len(inf)
+    # inf=map(int,inf)
+    # print len(inf)
 
     # print len(inf),l,"zero",zero
     # print "hjkhkhj"
-    print inf
+    # print inf
 
     print "After exttraction secret message is  "
     print frombits(inf)

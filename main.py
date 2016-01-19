@@ -37,7 +37,7 @@ if args.add:
 			print "Allah is the forgiver"
 			# os.system("python image_scale.py "+mess+' '+str(name_count))
 			# print u
-			# cmd='python de_stgano.py '+image_name+" "+str(name_count)
-			# os.system(cmd)
+			cmd='python de_stgano.py '+image_name+" "+str(name_count)
+			os.system(cmd)
 			name_count+=1
 			# myfile.close()
