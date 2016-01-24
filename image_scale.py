@@ -11,14 +11,14 @@ def tobits(s):
     result = []
     for c in s:
         bits = bin(ord(c))[2:]
-        bits = '0000000'[len(bits):] + bits
+        bits = '00000000'[len(bits):] + bits
         result.extend([int(b) for b in bits])
     return result
 
 def frombits(bits):
     chars = []
-    for b in range(len(bits) / 7):
-        byte = bits[b*7:(b+1)*7]
+    for b in range(len(bits) / 8):
+        byte = bits[b*8:(b+1)*8]
         chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
     return ''.join(chars)
 
@@ -28,7 +28,13 @@ def main(arg1,arg2,arg3):
     filename = arg1
     zero=0
     count=0
-    message=arg2
+    # with open(arg2,'r') as myfile:
+    #     message=myfile
+    # mess
+    with open(arg2,'r') as myfile:
+        message=myfile.read()
+        message+='#' 
+    # message=arg2
     name_count=arg3
     # message="Hera this message is for you  wherever you are, Remember you are my love. I don't know how but you are, so please keep this photo#"
     # message="Hera mera Land tera choot kya combination mera land tere moo me this dessage is for you  wherever you are remember you are my love i don't know how but you are so please keep this photo this is a token of love from me if you like me I love your face I need you so that i could study concentration I need you for sex for blowjob for fucking I want to touch boobs pussy women body want to bath along with you please marry me you will also enjoy a lot with being with me we would have great concentration for study as the great source of distraction for me is porn and a great source of sin Imaging your action will lead to attainment of good for a person#"
@@ -46,11 +52,11 @@ def main(arg1,arg2,arg3):
     # cv.SaveImage("new.jpg", newimage)
     im = cv.LoadImage("scaledim.bmp",0)
     k*im.width
-    print "h",im.width
-    print k*im.width
+    # print "h",im.width
+    # print k*im.width
     c = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
     s = [[0]*(k*im.width-1) for i in range(k*im.height-1)]
-    print k*im.width-1,k*im.height-1
+    # print k*im.width-1,k*im.height-1
 
 
     # /********************************************************************************************************88
@@ -111,7 +117,7 @@ def main(arg1,arg2,arg3):
     if(m%2)!=0:
         m-=1
     size=(n*m/4)
-    print size  
+    # print size  
     # array=[[]]
     array=[]
     for i in range(0,n,2):
@@ -229,14 +235,14 @@ def main(arg1,arg2,arg3):
 
 
 
-    print "No of pixels getting changed actually",pixel_modify_count,count
+    # print "No of pixels getting changed actually",pixel_modify_count,count
 
     # /*******************************************************************************************************************
         
     #                                                 TESTING OPERATION
 
     # /*******************************************************************************************************************
-    print "len of string",l,"type of l",type(steg)
+    # print "len of string",l,"type of l",type(steg)
 
     # /********************************************************************************************************
 
@@ -248,7 +254,7 @@ def main(arg1,arg2,arg3):
     # dirname=""
     import os 
     dirname=os.path.dirname
-    print dirname
+    # print dirname
     stego_name="stego"+name_count+"kb"+arg1
     cv2.imwrite(os.path.join("stego_images",stego_name),s_array);
     cover_name="cover_image"+arg1+"kb.bmp"
@@ -256,8 +262,8 @@ def main(arg1,arg2,arg3):
 
 
 
-    print "Message Successfully hiden"
-    print frombits(steg)
+    # print "Message Successfully hiden"
+    # print frombits(steg)
     cv2.waitKey(40000)
 
 if __name__=='__main__':

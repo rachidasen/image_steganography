@@ -1,0 +1,30 @@
+Dear Sir,
+ In your paper 
+ how you are handling the case in equation 4 
+    "S(i, j + 1) = C(i, j + 1) − b 1 "
+    if b1>c(i,j+1), s(i,j+1) is negative but in image 8-bit representation it is saved as 0 . this means s(i,j+1)=0 then at the receiver side some bit would be changed we can't ignore the case of 0 since according to my standing
+
+My understanding of why value of b=0 is important
+if the message contains zero say for example 8 bits in between '11100000001111111111001001'
+n1=3,n2=2,n3=4
+when we read n1 bits we get b1=7  the cover pixel and stego pixel have a difference of 7
+when n2bits we get b2=0 , the cover pixel and stego image pixel has no difference
+when we read n3 bits also we get  b3= 0, the cover pixel and stego has no difference
+
+We need to read b2=0 and b3=0 at the reciever side wince we need to place 0 in binary in n2 bits and b3 in n3 bits at the reciever. We can't ignore the value of b=0.It is important to consider
+
+Now the problem arises 
+
+s[i,j+1]=c[i,j+1]-b1
+if b1 > c[i,j+1]
+		then s[i,j+1] is negative what if we skip this condition and doesn't store any information
+		The Problem
+		------------
+		if we do this then at the receiver side the value of b will be 0 and by the algo according to 
+		the value of n1 the n1 bits will be zero, hence corrupting the information as the value of b generated at reciever is incorrect .
+		What if we check the value of b  and skip decoding the message at the reciver if it is 0 then also there is problem since b=0 is also our information as stated in the first paragraph
+if (b1==c[i,j+1])
+		 then we store information and then also s[i,j+1] is also zero and in this case no problem because at the receiver side we get the value of b1 and the value of n1, b1 is converted to binary and stored in n1 bits 
+	
+How are you resolving this issue in your paper.
+

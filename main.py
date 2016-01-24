@@ -18,8 +18,8 @@ if args.add:
 			flag=1
 		else:
 			print "reading_file",u
-			# with open(u,'r') as myfile:
-			message=u
+			with open(u,'r') as myfile:
+				message=me
 			print message
 
 			# message.encode('unicode-escape')
