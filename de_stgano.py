@@ -52,8 +52,8 @@ def main(arg1,arg2):
     import os 
     dirname=os.path.dirname
     print dirname
-    stego_name="stego"+name_count+"kb"+arg1
-    cover_name="cover_image"+arg1+"kb.bmp"
+    stego_name="stego"+name_count+arg1
+    cover_name="cover_image"+arg1+".bmp"
     # cv2.imwrite(os.path.join("stego_images",stego_name),s_array);
     # print name_count
     # print type(name_count)

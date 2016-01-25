@@ -22,7 +22,7 @@ def frombits(bits):
         chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
     return ''.join(chars)
 
-def main(arg1,arg2,arg3):
+def main(arg1,arg2):
     
     # from fisheryates import message,name_count
     filename = arg1
@@ -35,7 +35,7 @@ def main(arg1,arg2,arg3):
         message=myfile.read()
         message+='#' 
     # message=arg2
-    name_count=arg3
+    name_count=arg2
     # message="Hera this message is for you  wherever you are, Remember you are my love. I don't know how but you are, so please keep this photo#"
     # message="Hera mera Land tera choot kya combination mera land tere moo me this dessage is for you  wherever you are remember you are my love i don't know how but you are so please keep this photo this is a token of love from me if you like me I love your face I need you so that i could study concentration I need you for sex for blowjob for fucking I want to touch boobs pussy women body want to bath along with you please marry me you will also enjoy a lot with being with me we would have great concentration for study as the great source of distraction for me is porn and a great source of sin Imaging your action will lead to attainment of good for a person#"
 
@@ -255,10 +255,11 @@ def main(arg1,arg2,arg3):
     import os 
     dirname=os.path.dirname
     # print dirname
-    stego_name="stego"+name_count+"kb"+arg1
+    stego_name="stego"+name_coun+arg1
     cv2.imwrite(os.path.join("stego_images",stego_name),s_array);
-    cover_name="cover_image"+arg1+"kb.bmp"
+    cover_name="cover_image"+arg1+".bmp"
     cv2.imwrite(os.path.join("cover_images",cover_name),c_array);
+    
 
 
 
@@ -267,4 +268,4 @@ def main(arg1,arg2,arg3):
     cv2.waitKey(40000)
 
 if __name__=='__main__':
-    sys.exit(main(sys.argv[1], sys.argv[2],sys.argv[3]))
+    sys.exit(main(sys.argv[1], sys.argv[2]))

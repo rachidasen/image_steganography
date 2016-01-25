@@ -17,10 +17,7 @@ if args.add:
 			image_name=u
 			flag=1
 		else:
-			print "reading_file",u
-			with open(u,'r') as myfile:
-				message=me
-			print message
+			message = u
 
 			# message.encode('unicode-escape')
 			# message.encode("ascii","ignore")
@@ -28,7 +25,7 @@ if args.add:
 			# mess=str(message)
 			# print type(mess)
 			# cmd = 'python image_scale.py '+message+' '+str(name_count)+' '
-			cmd='python correct.py '+image_name+' "'+message+'" ' + str(name_count)
+			cmd='python correct.py '+image_name+" "+message
 			# cmd=str(cmd)
 			print cmd
 			cmd.decode('string-escape')
@@ -37,7 +34,7 @@ if args.add:
 			print "Allah is the forgiver"
 			# os.system("python image_scale.py "+mess+' '+str(name_count))
 			# print u
-			cmd='python de_stgano.py '+image_name+" "+str(name_count)
+			cmd='python de_stgano.py '+image_name+" "+message
 			os.system(cmd)
 			name_count+=1
 			# myfile.close()
